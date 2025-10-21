@@ -5,8 +5,13 @@ import { FaGithub, FaTwitter } from "react-icons/fa";
 import { Linkedin, Mail, Menu } from "lucide-react";
 import TechStack from "@/components/tech-stack";
 import { ModeToggle } from "@/components/mode-toggle";
+import Project from "./project";
+import getCurrentSession from "@/server/auth/sessions";
+import LogoutButton from "@/components/logout-button";
 
 export default async function Home() {
+  const { user } = await getCurrentSession();
+
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -47,6 +52,14 @@ export default async function Home() {
             </Button>
 
             <ModeToggle />
+
+            {user ? (
+              <LogoutButton variant="outline" />
+            ) : (
+              <Link href="/login">
+                <Button variant="outline">Login</Button>
+              </Link>
+            )}
           </div>
         </div>
       </header>
@@ -130,7 +143,7 @@ export default async function Home() {
             <h2 className="mb-8 sm:mb-12 text-center font-bold text-2xl tracking-tighter sm:text-3xl md:text-4xl lg:text-5xl">
               Projects
             </h2>
-            {/* <Project /> */}
+            <Project />
           </div>
         </section>
 

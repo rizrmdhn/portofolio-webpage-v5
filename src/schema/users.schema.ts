@@ -1,6 +1,5 @@
 import { users } from "@/server/db/schema";
 import { createInsertSchema } from "drizzle-zod";
-import { z } from "zod";
 
 const createUserSchema = createInsertSchema(users).pick({
 	name: true,
@@ -9,6 +8,7 @@ const createUserSchema = createInsertSchema(users).pick({
 });
 
 const updateUserSchema = createInsertSchema(users).pick({
+	id: true,
 	name: true,
 	email: true,
 	password: true,
