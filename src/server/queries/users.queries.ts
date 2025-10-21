@@ -1,7 +1,7 @@
-import { eq } from "drizzle-orm";
-import { db, type DBType } from "../db";
-import { users } from "../db/schema";
 import { TRPCError } from "@trpc/server";
+import { eq } from "drizzle-orm";
+import { type DBType, db } from "../db";
+import { users } from "../db/schema";
 
 const usersQueries = {
 	async getUserById(id: string) {

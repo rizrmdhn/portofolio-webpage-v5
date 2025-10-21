@@ -11,3 +11,9 @@ export const MAXIMUM_FILE_SIZE_REACH_MESSAGE = `Ukuran file tidak boleh lebih da
 
 export type SUPPORTED_FILE_EXTENSIONS =
 	(typeof IMAGE_MIME_TYPES)[keyof typeof IMAGE_MIME_TYPES];
+
+export const EXPERIENCE_TYPES = [
+	"internship",
+	"full-time",
+	"freelance",
+] as const;

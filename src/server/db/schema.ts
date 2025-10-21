@@ -1,8 +1,9 @@
 // Example model schema from the Drizzle docs
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
-import { sql } from "drizzle-orm";
-import { index, pgTableCreator } from "drizzle-orm/pg-core";
+import { EXPERIENCE_TYPES } from "@/lib/constants";
+import { desc, sql } from "drizzle-orm";
+import { index, pgEnum, pgTableCreator } from "drizzle-orm/pg-core";
 import { v7 as uuidv7 } from "uuid";
 
 /**
@@ -14,6 +15,8 @@ import { v7 as uuidv7 } from "uuid";
 export const createTable = pgTableCreator(
 	(name) => `portofolio-webpage-v5_${name}`,
 );
+
+export const experienceEnum = pgEnum("experience_type", EXPERIENCE_TYPES);
 
 export const users = createTable(
 	"users",
@@ -60,5 +63,97 @@ export const sessions = createTable(
 			index("session_id_idx").on(t.id),
 			index("user_id_idx").on(t.userId),
 		];
+	},
+);
+
+export const projects = createTable(
+	"projects",
+	(d) => ({
+		id: d
+			.uuid()
+			.primaryKey()
+			.$default(() => uuidv7()),
+		name: d.varchar({ length: 256 }).notNull(),
+		description: d.text().notNull(),
+		tech: d.text().array().notNull(),
+		github_url: d.text(),
+		live_url: d.text(),
+		createdAt: d
+			.timestamp({ withTimezone: true })
+			.default(sql`CURRENT_TIMESTAMP`)
+			.notNull(),
+		updatedAt: d.timestamp({ withTimezone: true }).$onUpdate(() => new Date()),
+	}),
+	(t) => {
+		return [index("projects_id_idx").on(t.id)];
+	},
+);
+
+export const projectViews = createTable(
+	"project_views",
+	(d) => ({
+		id: d
+			.uuid()
+			.primaryKey()
+			.$default(() => uuidv7()),
+		projectId: d
+			.uuid()
+			.references(() => projects.id, {
+				onDelete: "cascade",
+			})
+			.notNull(),
+		count: d.integer().default(0).notNull(),
+	}),
+	(t) => {
+		return [index("project_views_id_idx").on(t.id)];
+	},
+);
+
+export const experiences = createTable(
+	"experiences",
+	(d) => ({
+		id: d
+			.uuid()
+			.primaryKey()
+			.$default(() => uuidv7()),
+		title: d.varchar({ length: 256 }).notNull(),
+		description: d.text().notNull(),
+		company: d.varchar({ length: 256 }).notNull(),
+		type: experienceEnum().notNull(),
+		startDate: d.date().notNull(),
+		endDate: d.date(),
+		currentlyWorking: d.boolean().default(false).notNull(),
+		createdAt: d
+			.timestamp({ withTimezone: true })
+			.default(sql`CURRENT_TIMESTAMP`)
+			.notNull(),
+		updatedAt: d.timestamp({ withTimezone: true }).$onUpdate(() => new Date()),
+	}),
+	(t) => {
+		return [index("experiences_id_idx").on(t.id)];
+	},
+);
+
+export const certifications = createTable(
+	"certifications",
+	(d) => ({
+		id: d
+			.uuid()
+			.primaryKey()
+			.$default(() => uuidv7()),
+		name: d.varchar({ length: 256 }).notNull(),
+		issuer: d.varchar({ length: 256 }).notNull(),
+		certificate_url: d.text().notNull(),
+		issueDate: d.date().notNull(),
+		expiryDate: d.date(),
+		description: d.text(),
+		createdAt: d
+			.timestamp({ withTimezone: true })
+			.default(sql`CURRENT_TIMESTAMP`)
+			.notNull(),
+		updatedAt: d.timestamp({ withTimezone: true }).$onUpdate(() => new Date()),
+	}),
+	(t) => {
+		return [index("certifications_id_idx").on(t.id)];
 	},
 );

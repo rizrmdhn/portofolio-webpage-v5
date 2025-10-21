@@ -1,9 +1,9 @@
-import type { Sessions, SessionValidationResult } from "@/types/sessions.types";
+import type { SessionValidationResult, Sessions } from "@/types/sessions.types";
+import { TRPCError } from "@trpc/server";
+import { eq } from "drizzle-orm";
 import { v7 as uuidv7 } from "uuid";
 import { db } from "../db";
 import { sessions, users } from "../db/schema";
-import { eq } from "drizzle-orm";
-import { TRPCError } from "@trpc/server";
 
 const sessionsQueries = {
 	async createSessions(userId: string) {

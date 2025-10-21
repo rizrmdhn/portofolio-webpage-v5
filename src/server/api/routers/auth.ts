@@ -1,11 +1,11 @@
-import { z } from "zod";
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
+import { env } from "@/env";
+import { createTokenCookie, deleteTokenCookie } from "@/server/auth/utils";
+import sessionsQueries from "@/server/queries/sessions.queries";
+import usersQueries from "@/server/queries/users.queries";
 import { verify } from "@node-rs/argon2";
 import { TRPCError } from "@trpc/server";
-import { createTokenCookie, deleteTokenCookie } from "@/server/auth/utils";
-import usersQueries from "@/server/queries/users.queries";
-import sessionsQueries from "@/server/queries/sessions.queries";
-import { env } from "@/env";
+import { z } from "zod";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 export const authRouter = createTRPCRouter({
 	login: publicProcedure
@@ -25,7 +25,7 @@ export const authRouter = createTRPCRouter({
 				});
 			}
 
-			if (env.ALLOWED_EMAIL_LOGIN && user.email !== env.ALLOWED_EMAIL_LOGIN) {
+			if (user.email !== env.ALLOWED_EMAIL_LOGIN) {
 				throw new TRPCError({
 					code: "UNAUTHORIZED",
 					message: "Invalid credentials",

@@ -1,12 +1,12 @@
 import type { Exact } from "type-fest";
 
+import type * as relations from "@/server/db/relations";
+import type * as schema from "@/server/db/schema";
 import type {
 	BuildQueryResult,
 	DBQueryConfig,
 	ExtractTablesWithRelations,
 } from "drizzle-orm";
-import type * as relations from "@/server/db/relations";
-import type * as schema from "@/server/db/schema";
 
 export type StringWithAutocompleteOptions<TOptions> = (string & {}) | TOptions;
 
