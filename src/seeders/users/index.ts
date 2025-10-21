@@ -17,7 +17,7 @@ export type UsersToBeInserted = z.infer<typeof insertUsersSchema>;
 const generateUsers = async (): Promise<UsersToBeInserted[]> => {
 	const rows: UsersToBeInserted[] = [];
 
-	const password = "test12345";
+	const password = env.ALLOWED_EMAIL_PASSWORD || "test12345";
 
 	rows.push({
 		name: "Developer",
