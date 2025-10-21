@@ -25,7 +25,7 @@ export const authRouter = createTRPCRouter({
 				});
 			}
 
-			if (env.ALLOWED_EMAIL_LOGIN && user.email !== env.ALLOWED_EMAIL_LOGIN) {
+			if (user.email !== env.ALLOWED_EMAIL_LOGIN) {
 				throw new TRPCError({
 					code: "UNAUTHORIZED",
 					message: "Invalid credentials",
