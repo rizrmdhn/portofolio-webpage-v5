@@ -57,7 +57,7 @@ export default async function Home() {
             <div className="flex flex-col items-center justify-center space-y-6 text-center max-w-4xl mx-auto">
               <div className="space-y-4">
                 <h1 className="font-bold text-2xl tracking-tighter sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
-                  Full Stack Developer
+                  Web Developer
                 </h1>
                 <p className="mx-auto max-w-[600px] text-gray-500 text-sm sm:text-base md:text-lg lg:text-xl dark:text-gray-400 px-4">
                   I'm a freelance web developer, I'm passionate about technology
