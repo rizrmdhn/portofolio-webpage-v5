@@ -9,7 +9,7 @@ import type z from "zod";
 const experienceQueries = {
 	async getAllExperiences() {
 		const experiences = await db.query.experiences.findMany({
-			orderBy: (experience) => [desc(experience.startDate)],
+			orderBy: (experience) => [desc(experience.createdAt)],
 		});
 		return experiences;
 	},
