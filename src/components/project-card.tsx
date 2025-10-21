@@ -120,9 +120,9 @@ export default function ProjectCard({
         <h3 className="mb-2 font-semibold text-xl">{name}</h3>
         <p className="mb-4 text-muted-foreground text-sm">{description}</p>
         <div className="flex flex-wrap gap-2">
-          {tech.map((tech) => (
+          {tech.map((tech, idx) => (
             <span
-              key={tech}
+              key={idx.toString()}
               className="inline-flex items-center rounded-md bg-muted px-2 py-1 font-medium text-xs ring-1 ring-gray-500/10 ring-inset"
             >
               {tech}

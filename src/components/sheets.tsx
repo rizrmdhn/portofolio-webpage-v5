@@ -5,7 +5,7 @@ import { Sheet, SheetContent, SheetDescription } from "@/components/ui/sheet";
 import { createPortal } from "react-dom";
 import { cn } from "@/lib/utils";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { sheetStore } from "@/stores/sheet.stores";
+import { useSheetStore } from "@/stores/sheet.stores";
 
 type ModalProps = {
   className?: string;
@@ -13,8 +13,8 @@ type ModalProps = {
 };
 
 export default function Sheets({ className, children }: ModalProps) {
-  const open = sheetStore((state) => state.open);
-  const setOpen = sheetStore((state) => state.setOpen);
+  const open = useSheetStore((state) => state.open);
+  const setOpen = useSheetStore((state) => state.setOpen);
 
   const router = useRouter();
 

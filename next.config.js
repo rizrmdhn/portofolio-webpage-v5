@@ -9,7 +9,7 @@ const config = {
 	reactStrictMode: true,
 	experimental: {
 		authInterrupts: true,
-		// reactCompiler: true,
+		reactCompiler: true,
 	},
 	output: "standalone",
 };
