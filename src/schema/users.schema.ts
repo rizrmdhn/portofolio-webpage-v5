@@ -1,6 +1,6 @@
-import { z } from "zod";
-import { createInsertSchema } from "drizzle-zod";
 import { users } from "@/server/db/schema";
+import { createInsertSchema } from "drizzle-zod";
+import { z } from "zod";
 
 const createUserSchema = createInsertSchema(users).pick({
 	name: true,

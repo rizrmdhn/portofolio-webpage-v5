@@ -1,5 +1,5 @@
-import type { InferInsertModel } from "drizzle-orm";
 import type { users } from "@/server/db/schema";
+import type { InferInsertModel } from "drizzle-orm";
 
 import type { InferQueryModel } from "./utils.types";
 

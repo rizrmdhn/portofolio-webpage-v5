@@ -1,5 +1,5 @@
-import type { InferSelectModel } from "drizzle-orm";
 import type { sessions } from "@/server/db/schema";
+import type { InferSelectModel } from "drizzle-orm";
 
 import type { Users } from "./users.types";
 

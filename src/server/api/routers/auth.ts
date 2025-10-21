@@ -1,11 +1,11 @@
-import { z } from "zod";
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
+import { env } from "@/env";
+import { createTokenCookie, deleteTokenCookie } from "@/server/auth/utils";
+import sessionsQueries from "@/server/queries/sessions.queries";
+import usersQueries from "@/server/queries/users.queries";
 import { verify } from "@node-rs/argon2";
 import { TRPCError } from "@trpc/server";
-import { createTokenCookie, deleteTokenCookie } from "@/server/auth/utils";
-import usersQueries from "@/server/queries/users.queries";
-import sessionsQueries from "@/server/queries/sessions.queries";
-import { env } from "@/env";
+import { z } from "zod";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 export const authRouter = createTRPCRouter({
 	login: publicProcedure
