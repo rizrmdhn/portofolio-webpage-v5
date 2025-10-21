@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import React from "react";
-import LoginForm from "@/app/login/login-form";
+import LoginForm from "@/app/(auth)/login/login-form";
 import getCurrentSession from "@/server/auth/sessions";
 
 export default async function LoginPage() {

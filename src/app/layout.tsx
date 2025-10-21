@@ -28,6 +28,7 @@ export default function RootLayout({
             {children}
             <Toaster position="bottom-right" richColors />
             {env.NODE_ENV === "development" && <ReactQueryDevtools />}
+            <div id="sheet-root" />
           </Providers>
         </TRPCReactProvider>
       </body>
