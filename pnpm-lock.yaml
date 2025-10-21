@@ -29,6 +29,9 @@ importers:
       drizzle-orm:
         specifier: ^0.41.0
         version: 0.41.0(gel@2.1.1)(postgres@3.4.7)
+      drizzle-zod:
+        specifier: ^0.8.3
+        version: 0.8.3(drizzle-orm@0.41.0(gel@2.1.1)(postgres@3.4.7))(zod@4.1.12)
       next:
         specifier: ^15.5.6
         version: 15.5.6(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -1010,6 +1013,12 @@ packages:
       sqlite3:
         optional: true
 
+  drizzle-zod@0.8.3:
+    resolution: {integrity: sha512-66yVOuvGhKJnTdiqj1/Xaaz9/qzOdRJADpDa68enqS6g3t0kpNkwNYjUuaeXgZfO/UWuIM9HIhSlJ6C5ZraMww==}
+    peerDependencies:
+      drizzle-orm: '>=0.36.0'
+      zod: ^3.25.0 || ^4.0.0
+
   enhanced-resolve@5.18.3:
     resolution: {integrity: sha512-d4lC8xfavMeBjzGr2vECC3fsGXziXZQyJxD868h2M/mBI3PwAuODxAkLkq5HYuvrPYcUtiLzsTo8U3PgX3Ocww==}
     engines: {node: '>=10.13.0'}
@@ -1835,6 +1844,11 @@ snapshots:
     optionalDependencies:
       gel: 2.1.1
       postgres: 3.4.7
+
+  drizzle-zod@0.8.3(drizzle-orm@0.41.0(gel@2.1.1)(postgres@3.4.7))(zod@4.1.12):
+    dependencies:
+      drizzle-orm: 0.41.0(gel@2.1.1)(postgres@3.4.7)
+      zod: 4.1.12
 
   enhanced-resolve@5.18.3:
     dependencies:
