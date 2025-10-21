@@ -2,8 +2,6 @@ import { hash } from "@node-rs/argon2";
 import seedUsers from "./users";
 
 async function seeders() {
-	const hashedPassword = await hash("test12345");
-
 	await seedUsers();
 }
 
