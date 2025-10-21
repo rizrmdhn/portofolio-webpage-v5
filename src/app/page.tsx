@@ -8,6 +8,7 @@ import { ModeToggle } from "@/components/mode-toggle";
 import Project from "./project";
 import getCurrentSession from "@/server/auth/sessions";
 import LogoutButton from "@/components/logout-button";
+import Experience from "./experience";
 
 export default async function Home() {
   const { user } = await getCurrentSession();
@@ -23,7 +24,7 @@ export default async function Home() {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-6 font-medium text-sm">
+          <nav className="hidden items-center space-x-6 font-medium text-sm md:flex">
             <Link
               href="#about"
               className="transition-colors hover:text-foreground/80"
@@ -66,13 +67,13 @@ export default async function Home() {
 
       <main className="w-full">
         <section id="about" className="py-12 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6 mx-auto">
-            <div className="flex flex-col items-center justify-center space-y-6 text-center max-w-4xl mx-auto">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="mx-auto flex max-w-4xl flex-col items-center justify-center space-y-6 text-center">
               <div className="space-y-4">
                 <h1 className="font-bold text-2xl tracking-tighter sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
                   Web Developer
                 </h1>
-                <p className="mx-auto max-w-[600px] text-gray-500 text-sm sm:text-base md:text-lg lg:text-xl dark:text-gray-400 px-4">
+                <p className="mx-auto max-w-[600px] px-4 text-gray-500 text-sm sm:text-base md:text-lg lg:text-xl dark:text-gray-400">
                   I'm a freelance web developer, I'm passionate about technology
                   and I love to learn new things.
                 </p>
@@ -128,28 +129,28 @@ export default async function Home() {
 
         <section
           id="experience"
-          className="py-12 md:py-24 lg:py-32 bg-muted/50"
+          className="bg-muted/50 py-12 md:py-24 lg:py-32"
         >
-          <div className="container px-4 md:px-6 mx-auto">
-            <h2 className="mb-8 sm:mb-12 text-center font-bold text-2xl tracking-tighter sm:text-3xl md:text-4xl lg:text-5xl">
+          <div className="container mx-auto px-4 md:px-6">
+            <h2 className="mb-8 text-center font-bold text-2xl tracking-tighter sm:mb-12 sm:text-3xl md:text-4xl lg:text-5xl">
               Work Experience
             </h2>
-            {/* <Experience /> */}
+            <Experience />
           </div>
         </section>
 
         <section id="projects" className="py-12 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6 mx-auto">
-            <h2 className="mb-8 sm:mb-12 text-center font-bold text-2xl tracking-tighter sm:text-3xl md:text-4xl lg:text-5xl">
+          <div className="container mx-auto px-4 md:px-6">
+            <h2 className="mb-8 text-center font-bold text-2xl tracking-tighter sm:mb-12 sm:text-3xl md:text-4xl lg:text-5xl">
               Projects
             </h2>
             <Project />
           </div>
         </section>
 
-        <section className="py-12 md:py-24 lg:py-32 bg-muted/50">
-          <div className="container px-4 md:px-6 mx-auto">
-            <h2 className="mb-8 sm:mb-12 text-center font-bold text-2xl tracking-tighter sm:text-3xl md:text-4xl lg:text-5xl">
+        <section className="bg-muted/50 py-12 md:py-24 lg:py-32">
+          <div className="container mx-auto px-4 md:px-6">
+            <h2 className="mb-8 text-center font-bold text-2xl tracking-tighter sm:mb-12 sm:text-3xl md:text-4xl lg:text-5xl">
               Tech Stack
             </h2>
             <TechStack />
@@ -158,8 +159,8 @@ export default async function Home() {
       </main>
 
       <footer className="border-t">
-        <div className="container flex w-full shrink-0 flex-col items-center gap-2 px-4 py-6 sm:flex-row md:px-6 mx-auto">
-          <p className="text-gray-500 text-xs dark:text-gray-400 text-center sm:text-left">
+        <div className="container mx-auto flex w-full shrink-0 flex-col items-center gap-2 px-4 py-6 sm:flex-row md:px-6">
+          <p className="text-center text-gray-500 text-xs sm:text-left dark:text-gray-400">
             © {format(new Date(), "yyyy")} rizrmdhn. All rights reserved.
           </p>
           <nav className="flex gap-4 sm:ml-auto sm:gap-6">

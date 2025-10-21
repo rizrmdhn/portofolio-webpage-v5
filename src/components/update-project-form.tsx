@@ -5,17 +5,15 @@ import projectSchema from "@/schema/project.schema";
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import type z from "zod";
 import { ScrollArea } from "./ui/scroll-area";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "./ui/form";
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
@@ -29,7 +27,7 @@ export default function UpdateProjectForm({ id }: UpdateProjectFormProps) {
   const utils = api.useUtils();
   const router = useRouter();
 
-  const { data: project } = api.project.getById.useQuery({ id });
+  const [project] = api.project.getById.useSuspenseQuery({ id });
 
   const { mutate, status } = api.project.update.useMutation({
     onSuccess: () => {
@@ -62,92 +60,100 @@ export default function UpdateProjectForm({ id }: UpdateProjectFormProps) {
   return (
     <ScrollArea className="flex w-full flex-col items-center justify-center overflow-y-auto">
       <div className="flex flex-col items-center justify-center p-0 pt-4 pb-4 lg:p-4">
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="flex w-full flex-col gap-4"
-          >
-            <FormField
-              control={form.control}
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex w-full flex-col gap-4"
+        >
+          <FieldGroup>
+            <Controller
               name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Project Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder={"Type the project name"} {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel>Project Name</FieldLabel>
+                  <Input
+                    placeholder={"Type the project name"}
+                    {...field}
+                    aria-invalid={fieldState.invalid}
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
               )}
             />
 
-            <FormField
-              control={form.control}
+            <Controller
               name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Project Description</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder={"Type the project description"}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel>Project Description</FieldLabel>
+                  <Textarea
+                    placeholder={"Type the project description"}
+                    {...field}
+                    aria-invalid={fieldState.invalid}
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
               )}
             />
 
-            <FormField
-              control={form.control}
+            <Controller
               name="github_url"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>GitHub URL</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder={"GitHub repository URL (optional)"}
-                      {...field}
-                      value={field.value || ""}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel>GitHub URL</FieldLabel>
+                  <Input
+                    placeholder={"GitHub repository URL (optional)"}
+                    {...field}
+                    value={field.value || ""}
+                    aria-invalid={fieldState.invalid}
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
               )}
             />
 
-            <FormField
-              control={form.control}
+            <Controller
               name="live_url"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Live URL</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder={"Live project URL (optional)"}
-                      {...field}
-                      value={field.value || ""}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel>Live URL</FieldLabel>
+                  <Input
+                    placeholder={"Live project URL (optional)"}
+                    {...field}
+                    value={field.value || ""}
+                    aria-invalid={fieldState.invalid}
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
               )}
             />
 
-            <FormField
-              control={form.control}
+            <Controller
               name="tech"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Technologies Used</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder={"Type the technologies used (use commas)"}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel>Technologies Used</FieldLabel>
+                  <Textarea
+                    placeholder={"Type the technologies used (use commas)"}
+                    {...field}
+                    aria-invalid={fieldState.invalid}
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
               )}
             />
 
@@ -157,8 +163,8 @@ export default function UpdateProjectForm({ id }: UpdateProjectFormProps) {
               ) : null}
               {status === "pending" ? "Updating..." : "Update Project"}
             </Button>
-          </form>
-        </Form>
+          </FieldGroup>
+        </form>
       </div>
     </ScrollArea>
   );
