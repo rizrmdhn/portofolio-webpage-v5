@@ -1,7 +1,10 @@
 import { projects } from "@/server/db/schema";
 import { createInsertSchema } from "drizzle-zod";
+import z from "zod";
 
-const createProjectSchema = createInsertSchema(projects).pick({
+const createProjectSchema = createInsertSchema(projects, {
+	tech: z.string(),
+}).pick({
 	name: true,
 	description: true,
 	github_url: true,
@@ -9,7 +12,9 @@ const createProjectSchema = createInsertSchema(projects).pick({
 	tech: true,
 });
 
-const updateProjectSchema = createInsertSchema(projects)
+const updateProjectSchema = createInsertSchema(projects, {
+	tech: z.string(),
+})
 	.required({
 		id: true,
 	})

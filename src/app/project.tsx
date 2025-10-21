@@ -7,10 +7,13 @@ import { api } from "@/trpc/react";
 import { FolderOpen, Plus } from "lucide-react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
 
 export default function Project() {
   const { data: auth } = api.auth.me.useQuery();
   const { data: projects, isLoading } = api.project.getAll.useQuery();
+
+  const router = useRouter();
 
   if (isLoading) {
     return (
@@ -65,9 +68,7 @@ export default function Project() {
     <Card
       className="overflow-hidden border-dashed border-2 hover:border-solid transition-all duration-200 cursor-pointer group active:scale-95 hover:shadow-md"
       onClick={() => {
-        // Add your navigation logic here
-        // For example: router.push('/projects/new')
-        console.log("Add new project clicked");
+        router.push("/project/create");
       }}
     >
       <CardContent className="p-4 h-full flex flex-col items-center justify-center min-h-[200px]">

@@ -35,7 +35,11 @@ const projectQueries = {
 	async createProject(data: z.infer<typeof projectSchema.createProjectSchema>) {
 		const tech: string[] = [];
 
-		for (const t of data.tech) {
+		// data.tech.split(",").forEach((t) => {
+		// 	tech.push(t.trim());
+		// });
+
+		for (const t of data.tech.split(",")) {
 			tech.push(t.trim());
 		}
 
@@ -68,7 +72,7 @@ const projectQueries = {
 
 		const tech: string[] = [];
 
-		for (const t of data.tech) {
+		for (const t of data.tech.split(",")) {
 			tech.push(t.trim());
 		}
 

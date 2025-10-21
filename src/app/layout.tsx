@@ -19,13 +19,15 @@ const geist = Geist({
 
 export default function RootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+  sheet,
+}: Readonly<{ children: React.ReactNode; sheet: React.ReactNode }>) {
   return (
     <html lang="en" className={`${geist.variable}`} suppressHydrationWarning>
       <body>
         <TRPCReactProvider>
           <Providers>
             {children}
+            {sheet}
             <Toaster position="bottom-right" richColors />
             {env.NODE_ENV === "development" && <ReactQueryDevtools />}
             <div id="sheet-root" />
