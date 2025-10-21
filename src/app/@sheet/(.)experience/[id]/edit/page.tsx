@@ -7,32 +7,32 @@ import { api } from "@/trpc/server";
 import { forbidden } from "next/navigation";
 
 interface UpdateExperienceSheetProps {
-  params: Promise<{
-    id: string;
-  }>;
+	params: Promise<{
+		id: string;
+	}>;
 }
 
 export default async function UpdateExperienceSheet({
-  params,
+	params,
 }: UpdateExperienceSheetProps) {
-  const { id } = await params;
+	const { id } = await params;
 
-  const { user } = await getCurrentSession();
+	const { user } = await getCurrentSession();
 
-  if (!user) {
-    forbidden();
-  }
+	if (!user) {
+		forbidden();
+	}
 
-  api.experience.getById.prefetch({ id });
+	api.experience.getById.prefetch({ id });
 
-  return (
-    <Sheets>
-      <SheetHeader>
-        <SheetTitle className="font-bold text-3xl">
-          Update Experience
-        </SheetTitle>
-      </SheetHeader>
-      <UpdateExperienceForm id={id} />
-    </Sheets>
-  );
+	return (
+		<Sheets>
+			<SheetHeader>
+				<SheetTitle className="font-bold text-3xl">
+					Update Experience
+				</SheetTitle>
+			</SheetHeader>
+			<UpdateExperienceForm id={id} />
+		</Sheets>
+	);
 }

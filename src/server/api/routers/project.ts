@@ -1,8 +1,8 @@
-import { z } from "zod";
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
-import projectQueries from "@/server/queries/project.queries";
 import projectSchema from "@/schema/project.schema";
 import projectViewsQueries from "@/server/queries/project-views.queries";
+import projectQueries from "@/server/queries/project.queries";
+import { z } from "zod";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 export const projectRouter = createTRPCRouter({
 	getAll: publicProcedure.query(async () => {

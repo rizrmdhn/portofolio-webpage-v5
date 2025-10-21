@@ -1,7 +1,7 @@
-import { eq, sql } from "drizzle-orm";
-import { projectViews } from "../db/schema";
-import { db } from "../db";
 import { TRPCError } from "@trpc/server";
+import { eq, sql } from "drizzle-orm";
+import { db } from "../db";
+import { projectViews } from "../db/schema";
 
 const projectViewsQueries = {
 	async incrementViews(projectId: string): Promise<void> {

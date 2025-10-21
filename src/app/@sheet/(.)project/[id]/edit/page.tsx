@@ -7,32 +7,32 @@ import { api } from "@/trpc/server";
 import { forbidden } from "next/navigation";
 
 interface UpdateProjectSheetProps {
-  params: Promise<{
-    id: string;
-  }>;
+	params: Promise<{
+		id: string;
+	}>;
 }
 
 export default async function UpdateProjectSheet({
-  params,
+	params,
 }: UpdateProjectSheetProps) {
-  const { id } = await params;
+	const { id } = await params;
 
-  const { user } = await getCurrentSession();
+	const { user } = await getCurrentSession();
 
-  if (!user) {
-    forbidden();
-  }
+	if (!user) {
+		forbidden();
+	}
 
-  void api.project.getById.prefetch({
-    id,
-  });
+	void api.project.getById.prefetch({
+		id,
+	});
 
-  return (
-    <Sheets>
-      <SheetHeader>
-        <SheetTitle className="font-bold text-3xl">Edit Project</SheetTitle>
-      </SheetHeader>
-      <UpdateProjectForm id={id} />
-    </Sheets>
-  );
+	return (
+		<Sheets>
+			<SheetHeader>
+				<SheetTitle className="font-bold text-3xl">Edit Project</SheetTitle>
+			</SheetHeader>
+			<UpdateProjectForm id={id} />
+		</Sheets>
+	);
 }

@@ -1,9 +1,9 @@
-import { z } from "zod";
-import { hash } from "@node-rs/argon2";
-import { users } from "../../server/db/schema";
-import { createInsertSchema } from "drizzle-zod";
-import { db } from "@/server/db";
 import { env } from "@/env";
+import { db } from "@/server/db";
+import { hash } from "@node-rs/argon2";
+import { createInsertSchema } from "drizzle-zod";
+import { z } from "zod";
+import { users } from "../../server/db/schema";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const insertUsersSchema = createInsertSchema(users, {

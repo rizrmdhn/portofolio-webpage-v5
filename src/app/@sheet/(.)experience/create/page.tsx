@@ -5,20 +5,20 @@ import getCurrentSession from "@/server/auth/sessions";
 import { forbidden } from "next/navigation";
 
 export default async function CreateNewExperienceSheet() {
-  const { user } = await getCurrentSession();
+	const { user } = await getCurrentSession();
 
-  if (!user) {
-    forbidden();
-  }
+	if (!user) {
+		forbidden();
+	}
 
-  return (
-    <Sheets>
-      <SheetHeader>
-        <SheetTitle className="font-bold text-3xl">
-          Create New Experience
-        </SheetTitle>
-      </SheetHeader>
-      <CreateExperienceForm />
-    </Sheets>
-  );
+	return (
+		<Sheets>
+			<SheetHeader>
+				<SheetTitle className="font-bold text-3xl">
+					Create New Experience
+				</SheetTitle>
+			</SheetHeader>
+			<CreateExperienceForm />
+		</Sheets>
+	);
 }
