@@ -1,0 +1,1 @@
+ALTER TABLE "portofolio-webpage-v5_projects" ADD COLUMN "image_url" text;

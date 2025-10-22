@@ -5,6 +5,7 @@ import projectViewsQueries from "@/server/queries/project-views.queries";
 import { TRPCError } from "@trpc/server";
 import { desc, eq } from "drizzle-orm";
 import type z from "zod";
+import utapi from "../uploadthing";
 
 const projectQueries = {
 	async getAllProjects() {
@@ -92,6 +93,32 @@ const projectQueries = {
 		return result;
 	},
 
+	async insertImageToProject(id: string, image_url: string | null) {
+		const isExist = this.getProjectById(id);
+
+		if (!isExist) {
+			throw new TRPCError({
+				code: "NOT_FOUND",
+				message: `Project with id ${id} not found`,
+			});
+		}
+
+		const [result] = await db
+			.update(projects)
+			.set({ image_url })
+			.where(eq(projects.id, id))
+			.returning();
+
+		if (!result) {
+			throw new TRPCError({
+				code: "INTERNAL_SERVER_ERROR",
+				message: "Failed to insert image to project",
+			});
+		}
+
+		return result;
+	},
+
 	async deleteProject(id: string) {
 		const isExist = this.getProjectById(id);
 
@@ -112,6 +139,18 @@ const projectQueries = {
 				code: "INTERNAL_SERVER_ERROR",
 				message: "Failed to delete project",
 			});
+		}
+
+		if (result.image_url) {
+			const imageFiles = result.image_url.split("/").pop();
+
+			if (!imageFiles)
+				throw new TRPCError({
+					code: "INTERNAL_SERVER_ERROR",
+					message: "Failed to parse image file name",
+				});
+
+			await utapi.deleteFiles(imageFiles);
 		}
 
 		return result;
