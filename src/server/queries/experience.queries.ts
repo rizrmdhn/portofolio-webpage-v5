@@ -1,7 +1,6 @@
 import type experienceSchema from "@/schema/experience.schema";
 import { db } from "@/server/db";
 import { experiences } from "@/server/db/schema";
-import projectViewsQueries from "@/server/queries/project-views.queries";
 import { TRPCError } from "@trpc/server";
 import { desc, eq } from "drizzle-orm";
 import type z from "zod";

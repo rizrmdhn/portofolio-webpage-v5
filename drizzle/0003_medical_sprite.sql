@@ -1,0 +1,1 @@
+ALTER TABLE "portofolio-webpage-v5_certifications" RENAME COLUMN "description" TO "certificate_id";

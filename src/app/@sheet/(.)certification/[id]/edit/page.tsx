@@ -1,20 +1,19 @@
-import CreateProjectForm from "@/components/create-project-form";
 import Sheets from "@/components/sheets";
 import { SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import UpdateProjectForm from "@/components/update-project-form";
 import getCurrentSession from "@/server/auth/sessions";
 import { api, HydrateClient } from "@/trpc/server";
 import { forbidden } from "next/navigation";
+import UpdateCertificationForm from "@/components/update-certification-form";
 
-interface UpdateProjectSheetProps {
+interface UpdateCertificationSheetProps {
   params: Promise<{
     id: string;
   }>;
 }
 
-export default async function UpdateProjectSheet({
+export default async function UpdateCertificationSheet({
   params,
-}: UpdateProjectSheetProps) {
+}: UpdateCertificationSheetProps) {
   const { id } = await params;
 
   const { user } = await getCurrentSession();
@@ -23,17 +22,17 @@ export default async function UpdateProjectSheet({
     forbidden();
   }
 
-  void api.project.getById.prefetch({
-    id,
-  });
+  api.certification.getById.prefetch({ id });
 
   return (
     <Sheets>
       <SheetHeader>
-        <SheetTitle className="font-bold text-3xl">Edit Project</SheetTitle>
+        <SheetTitle className="font-bold text-3xl">
+          Update Certification
+        </SheetTitle>
       </SheetHeader>
       <HydrateClient>
-        <UpdateProjectForm id={id} />
+        <UpdateCertificationForm id={id} />
       </HydrateClient>
     </Sheets>
   );

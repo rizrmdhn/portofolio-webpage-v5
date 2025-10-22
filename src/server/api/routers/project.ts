@@ -1,10 +1,10 @@
 import projectSchema from "@/schema/project.schema";
 import projectViewsQueries from "@/server/queries/project-views.queries";
 import projectQueries from "@/server/queries/project.queries";
+import utapi from "@/server/uploadthing";
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
-import { TRPCError } from "@trpc/server";
-import utapi from "@/server/uploadthing";
 
 export const projectRouter = createTRPCRouter({
 	getAll: publicProcedure.query(async () => {

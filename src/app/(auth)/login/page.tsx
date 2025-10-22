@@ -5,8 +5,9 @@ import React from "react";
 
 export default async function LoginPage() {
 	const { user } = await getCurrentSession();
+
 	if (user) {
-		redirect("/dashboard");
+		redirect("/");
 	}
 
 	return (

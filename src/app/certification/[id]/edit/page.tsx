@@ -1,17 +1,17 @@
-import UpdateExperienceForm from "@/components/update-experience-form";
 import getCurrentSession from "@/server/auth/sessions";
 import { api, HydrateClient } from "@/trpc/server";
 import { forbidden } from "next/navigation";
+import UpdateCertificationForm from "@/components/update-certification-form";
 
-interface UpdateExperiencePageProps {
+interface UpdateCertificationPageProps {
   params: Promise<{
     id: string;
   }>;
 }
 
-export default async function UpdateExperiencePage({
+export default async function UpdateCertificationPage({
   params,
-}: UpdateExperiencePageProps) {
+}: UpdateCertificationPageProps) {
   const { id } = await params;
 
   const { user } = await getCurrentSession();
@@ -20,13 +20,15 @@ export default async function UpdateExperiencePage({
     forbidden();
   }
 
-  api.experience.getById.prefetch({ id });
+  void api.certification.getById.prefetch({
+    id,
+  });
 
   return (
     <div className="flex flex-col items-center justify-center gap-4 xl:p-4">
-      <h1 className="self-start font-bold text-3xl">Update Experience</h1>
+      <h1 className="self-start font-bold text-3xl">Edit Certification</h1>
       <HydrateClient>
-        <UpdateExperienceForm id={id} />
+        <UpdateCertificationForm id={id} />
       </HydrateClient>
     </div>
   );
