@@ -10,9 +10,15 @@ import { FaGithub, FaTwitter } from "react-icons/fa";
 import Experience from "./experience";
 import Project from "./project";
 import Certification from "./certification";
+import { api, HydrateClient } from "@/trpc/server";
 
 export default async function Home() {
   const { user } = await getCurrentSession();
+
+  api.auth.me.prefetch();
+  api.project.getAll.prefetch();
+  api.certification.getAll.prefetch();
+  api.experience.getAll.prefetch();
 
   return (
     <div className="min-h-screen bg-background">
@@ -142,7 +148,9 @@ export default async function Home() {
             <h2 className="mb-8 text-center font-bold text-2xl tracking-tighter sm:mb-12 sm:text-3xl md:text-4xl lg:text-5xl">
               Work Experience
             </h2>
-            <Experience />
+            <HydrateClient>
+              <Experience />
+            </HydrateClient>
           </div>
         </section>
 
@@ -151,7 +159,9 @@ export default async function Home() {
             <h2 className="mb-8 text-center font-bold text-2xl tracking-tighter sm:mb-12 sm:text-3xl md:text-4xl lg:text-5xl">
               Projects
             </h2>
-            <Project />
+            <HydrateClient>
+              <Project />
+            </HydrateClient>
           </div>
         </section>
 
@@ -169,7 +179,9 @@ export default async function Home() {
             <h2 className="mb-8 text-center font-bold text-2xl tracking-tighter sm:mb-12 sm:text-3xl md:text-4xl lg:text-5xl">
               Certificates
             </h2>
-            <Certification />
+            <HydrateClient>
+              <Certification />
+            </HydrateClient>
           </div>
         </section>
       </main>
