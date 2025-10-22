@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 
 const generateMetadata = (metadata?: Metadata) => {
 	const title =
-		typeof metadata?.title === "string" ? metadata.title : "Portofolio Webpage";
+		typeof metadata?.title === "string" ? metadata.title : "Rizrmdhn";
 
 	return {
-		title: `${title} | Portofolio Webpage`,
+		title: `${title} | Portofolio`,
 		description:
 			metadata?.description ??
 			"My personal portofolio webpage built with Next.js, TypeScript, and Tailwind CSS.",
