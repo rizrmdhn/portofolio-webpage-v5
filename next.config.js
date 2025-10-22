@@ -11,6 +11,7 @@ const config = {
 		authInterrupts: true,
 		reactCompiler: true,
 	},
+	typedRoutes: true,
 	output: "standalone",
 };
 
