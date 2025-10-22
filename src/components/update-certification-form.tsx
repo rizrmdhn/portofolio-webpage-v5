@@ -7,7 +7,7 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { globalErrorToast, globalSuccessToast } from "@/lib/toast";
-import { cn } from "@/lib/utils";
+import { calculateFutureDate, cn } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
@@ -229,10 +229,9 @@ export default function UpdateCertificationForm({
                           field.value ? new Date(field.value) : undefined
                         }
                         onSelect={field.onChange}
-                        disabled={(date) =>
-                          date > new Date() || date < new Date("1900-01-01")
-                        }
+                        disabled={(date) => date < new Date("1900-01-01")}
                         captionLayout="dropdown"
+                        endMonth={calculateFutureDate(20)}
                       />
                     </PopoverContent>
                   </Popover>
