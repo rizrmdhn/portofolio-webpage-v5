@@ -4,14 +4,15 @@ import { redirect } from "next/navigation";
 import React from "react";
 
 export default async function LoginPage() {
-	const { user } = await getCurrentSession();
-	if (user) {
-		redirect("/dashboard");
-	}
+  const { user } = await getCurrentSession();
 
-	return (
-		<div className="flex h-screen w-screen flex-col items-center justify-center gap-5">
-			<LoginForm />
-		</div>
-	);
+  if (user) {
+    redirect("/");
+  }
+
+  return (
+    <div className="flex h-screen w-screen flex-col items-center justify-center gap-5">
+      <LoginForm />
+    </div>
+  );
 }
