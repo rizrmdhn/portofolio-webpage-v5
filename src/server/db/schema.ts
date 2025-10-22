@@ -78,6 +78,7 @@ export const projects = createTable(
 		tech: d.text().array().notNull(),
 		github_url: d.text(),
 		live_url: d.text(),
+		image_url: d.text(),
 		createdAt: d
 			.timestamp({ withTimezone: true })
 			.default(sql`CURRENT_TIMESTAMP`)
