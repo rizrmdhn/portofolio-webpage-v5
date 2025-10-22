@@ -1,27 +1,41 @@
 {
-  "version": "7",
-  "dialect": "postgresql",
-  "entries": [
-    {
-      "idx": 0,
-      "version": "7",
-      "when": 1761018640310,
-      "tag": "0000_strong_ultimates",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1761021598034,
-      "tag": "0001_simple_ben_urich",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1761108657952,
-      "tag": "0002_equal_namora",
-      "breakpoints": true
-    }
-  ]
+	"version": "7",
+	"dialect": "postgresql",
+	"entries": [
+		{
+			"idx": 0,
+			"version": "7",
+			"when": 1761018640310,
+			"tag": "0000_strong_ultimates",
+			"breakpoints": true
+		},
+		{
+			"idx": 1,
+			"version": "7",
+			"when": 1761021598034,
+			"tag": "0001_simple_ben_urich",
+			"breakpoints": true
+		},
+		{
+			"idx": 2,
+			"version": "7",
+			"when": 1761108657952,
+			"tag": "0002_equal_namora",
+			"breakpoints": true
+		},
+		{
+			"idx": 3,
+			"version": "7",
+			"when": 1761116377541,
+			"tag": "0003_medical_sprite",
+			"breakpoints": true
+		},
+		{
+			"idx": 4,
+			"version": "7",
+			"when": 1761116464050,
+			"tag": "0004_yielding_rick_jones",
+			"breakpoints": true
+		}
+	]
 }

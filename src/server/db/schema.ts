@@ -144,10 +144,10 @@ export const certifications = createTable(
 			.$default(() => uuidv7()),
 		name: d.varchar({ length: 256 }).notNull(),
 		issuer: d.varchar({ length: 256 }).notNull(),
-		certificate_url: d.text().notNull(),
+		certificate_url: d.text(),
+		certificate_id: d.varchar({ length: 256 }),
 		issueDate: d.date().notNull(),
 		expiryDate: d.date(),
-		description: d.text(),
 		createdAt: d
 			.timestamp({ withTimezone: true })
 			.default(sql`CURRENT_TIMESTAMP`)

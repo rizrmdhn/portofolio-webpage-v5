@@ -1,0 +1,2 @@
+ALTER TABLE "portofolio-webpage-v5_certifications" ALTER COLUMN "certificate_url" DROP NOT NULL;--> statement-breakpoint
+ALTER TABLE "portofolio-webpage-v5_certifications" ALTER COLUMN "certificate_id" DROP NOT NULL;
