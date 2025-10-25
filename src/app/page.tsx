@@ -11,6 +11,8 @@ import Experience from "./experience";
 import Project from "./project";
 import Certification from "./certification";
 import { api, HydrateClient } from "@/trpc/server";
+import MobileMenu from "@/components/mobile-menu";
+import type { MenuItem } from "@/types/mobile-menu.types";
 
 export default async function Home() {
   const { user } = await getCurrentSession();
@@ -19,6 +21,13 @@ export default async function Home() {
   api.project.getAll.prefetch();
   api.certification.getAll.prefetch();
   api.experience.getAll.prefetch();
+
+  const mobileMenu: MenuItem[] = [
+    { label: "About", href: "#about" },
+    { label: "Experience", href: "#experience" },
+    { label: "Projects", href: "#projects" },
+    { label: "Certificates", href: "#certificates" },
+  ];
 
   return (
     <div className="min-h-screen bg-background">
@@ -61,16 +70,14 @@ export default async function Home() {
           {/* Right side items */}
           <div className="flex items-center space-x-2">
             {/* Mobile Menu Button */}
-            <Button variant="ghost" size="icon" className="md:hidden">
-              <Menu className="h-5 w-5" />
-            </Button>
+            <MobileMenu menu={mobileMenu} />
 
             <ModeToggle />
 
             {user ? (
-              <LogoutButton variant="outline" />
+              <LogoutButton className="hidden md:flex" variant="outline" />
             ) : (
-              <Link href="/login">
+              <Link href="/login" className="hidden md:block">
                 <Button variant="outline">Login</Button>
               </Link>
             )}
