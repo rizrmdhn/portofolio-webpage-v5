@@ -181,3 +181,23 @@ export const applicationSettings = createTable(
 		];
 	},
 );
+
+export const techStack = createTable(
+	"tech_stack",
+	(d) => ({
+		id: d
+			.uuid()
+			.primaryKey()
+			.$default(() => uuidv7()),
+		name: d.varchar({ length: 256 }).notNull(),
+		list: d.text().array().notNull(),
+		createdAt: d
+			.timestamp({ withTimezone: true })
+			.default(sql`CURRENT_TIMESTAMP`)
+			.notNull(),
+		updatedAt: d.timestamp({ withTimezone: true }).$onUpdate(() => new Date()),
+	}),
+	(t) => {
+		return [index("tech_stack_id_idx").on(t.id)];
+	},
+);

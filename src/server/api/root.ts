@@ -4,6 +4,7 @@ import { certificationRouter } from "./routers/certification";
 import { experienceRouter } from "./routers/experience";
 import { projectRouter } from "./routers/project";
 import { viewAsRouter } from "./routers/view-as";
+import { techStackRouter } from "./routers/tech-stack";
 
 /**
  * This is the primary router for your server.
@@ -15,6 +16,7 @@ export const appRouter = createTRPCRouter({
 	project: projectRouter,
 	experience: experienceRouter,
 	certification: certificationRouter,
+	techStack: techStackRouter,
 	viewAs: viewAsRouter,
 });
 

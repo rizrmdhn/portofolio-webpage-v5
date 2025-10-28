@@ -1,6 +1,6 @@
 import LogoutButton from "@/components/logout-button";
 import { ModeToggle } from "@/components/mode-toggle";
-import TechStack from "@/components/tech-stack";
+import TechStack from "./tech-stack";
 import { Button } from "@/components/ui/button";
 import getCurrentSession from "@/server/auth/sessions";
 import { format } from "date-fns";
@@ -181,7 +181,9 @@ export default async function Home() {
             <h2 className="mb-8 text-center font-bold text-2xl tracking-tighter sm:mb-12 sm:text-3xl md:text-4xl lg:text-5xl">
               Tech Stack
             </h2>
-            <TechStack />
+            <HydrateClient>
+              <TechStack />
+            </HydrateClient>
           </div>
         </section>
 
