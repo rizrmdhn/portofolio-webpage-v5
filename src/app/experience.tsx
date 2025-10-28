@@ -4,7 +4,9 @@ import ExperienceCard from "@/components/experience-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import useViewAs from "@/hooks/use-view-as";
 import { api } from "@/trpc/react";
+import { ViewAsViewType } from "@/types/view-as.types";
 import { Briefcase, Plus } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -12,8 +14,17 @@ import { useRouter } from "next/navigation";
 export default function Experience() {
   const [auth] = api.auth.me.useSuspenseQuery();
   const [experiences, etc] = api.experience.getAll.useSuspenseQuery();
+  const { data: viewAsSetting, isLoading: isLoadingViewAs } = useViewAs();
 
   const router = useRouter();
+
+  // Determine if user should see admin features
+  const isAdminView = viewAsSetting?.data?.value === ViewAsViewType.ADMIN;
+  const isGuestView = viewAsSetting?.data?.value === ViewAsViewType.GUEST;
+
+  // Show admin features if user is authenticated AND view is set to ADMIN (or no viewAs setting)
+  const showAdminFeatures =
+    auth && (isAdminView || (!isLoadingViewAs && !viewAsSetting));
 
   if (etc.isLoading) {
     return (
@@ -36,8 +47,11 @@ export default function Experience() {
     );
   }
 
-  // Empty state when no experiences and no authenticated user
-  if ((!experiences || experiences.length === 0) && !auth) {
+  // Empty state when no experiences and in guest view or not showing admin features
+  if (
+    (!experiences || experiences.length === 0) &&
+    (isGuestView || !showAdminFeatures)
+  ) {
     return (
       <div className="flex flex-col items-center justify-center py-12 text-center">
         <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-muted">
@@ -89,29 +103,31 @@ export default function Experience() {
 
   return (
     <div className="grid gap-6 md:grid-cols-2">
-      {/* Add Experience Card - Only show if user is authenticated */}
-      {auth && <AddExperienceCard />}
+      {/* Add Experience Card - Only show if admin features are enabled and not in guest view */}
+      {showAdminFeatures && !isGuestView && <AddExperienceCard />}
 
       {/* Experience Cards */}
       {experiences?.map((exp) => (
         <ExperienceCard key={exp.id} {...exp} />
       ))}
 
-      {/* Empty state when authenticated user has no experiences */}
-      {auth && (!experiences || experiences.length === 0) && (
-        <div className="col-span-full flex flex-col items-center justify-center py-12 text-center">
-          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-muted">
-            <Briefcase className="h-10 w-10 text-muted-foreground" />
+      {/* Empty state when authenticated user has no experiences (admin view only) */}
+      {showAdminFeatures &&
+        !isGuestView &&
+        (!experiences || experiences.length === 0) && (
+          <div className="col-span-full flex flex-col items-center justify-center py-12 text-center">
+            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-muted">
+              <Briefcase className="h-10 w-10 text-muted-foreground" />
+            </div>
+            <div className="mt-6 space-y-2">
+              <h3 className="font-semibold text-lg">No experiences yet</h3>
+              <p className="max-w-md text-muted-foreground text-sm">
+                Get started by adding your first work experience using the card
+                above.
+              </p>
+            </div>
           </div>
-          <div className="mt-6 space-y-2">
-            <h3 className="font-semibold text-lg">No experiences yet</h3>
-            <p className="max-w-md text-muted-foreground text-sm">
-              Get started by adding your first work experience using the card
-              above.
-            </p>
-          </div>
-        </div>
-      )}
+        )}
     </div>
   );
 }

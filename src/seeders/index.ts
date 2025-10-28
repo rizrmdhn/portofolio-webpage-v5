@@ -1,8 +1,9 @@
-import { hash } from "@node-rs/argon2";
 import seedUsers from "./users";
+import seedApplicationSettings from "./application-settings";
 
 async function seeders() {
 	await seedUsers();
+	await seedApplicationSettings();
 }
 
 seeders()

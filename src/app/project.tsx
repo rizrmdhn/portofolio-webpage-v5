@@ -4,7 +4,9 @@ import ProjectCard from "@/components/project-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import useViewAs from "@/hooks/use-view-as";
 import { api } from "@/trpc/react";
+import { ViewAsViewType } from "@/types/view-as.types";
 import { FolderOpen, Plus } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -12,8 +14,17 @@ import { useRouter } from "next/navigation";
 export default function Project() {
   const [auth] = api.auth.me.useSuspenseQuery();
   const [projects, etc] = api.project.getAll.useSuspenseQuery();
+  const { data: viewAsSetting, isLoading: isLoadingViewAs } = useViewAs();
 
   const router = useRouter();
+
+  // Determine if user should see admin features
+  const isAdminView = viewAsSetting?.data?.value === ViewAsViewType.ADMIN;
+  const isGuestView = viewAsSetting?.data?.value === ViewAsViewType.GUEST;
+
+  // Show admin features if user is authenticated AND view is set to ADMIN (or no viewAs setting)
+  const showAdminFeatures =
+    auth && (isAdminView || (!isLoadingViewAs && !viewAsSetting));
 
   if (etc.isLoading) {
     return (
@@ -39,7 +50,10 @@ export default function Project() {
   }
 
   // Empty state when no projects and no authenticated user
-  if ((!projects || projects.length === 0) && !auth) {
+  if (
+    (!projects || projects.length === 0) &&
+    (isGuestView || !showAdminFeatures)
+  ) {
     return (
       <div className="flex flex-col items-center justify-center py-12 text-center">
         <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-muted">
@@ -92,7 +106,7 @@ export default function Project() {
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {/* Add Project Card - Only show if user is authenticated */}
-      {auth && <AddProjectCard />}
+      {showAdminFeatures && !isGuestView && <AddProjectCard />}
 
       {/* Project Cards */}
       {projects?.map((proj) => (
@@ -100,19 +114,21 @@ export default function Project() {
       ))}
 
       {/* Empty state when authenticated user has no projects */}
-      {auth && (!projects || projects.length === 0) && (
-        <div className="col-span-full flex flex-col items-center justify-center py-12 text-center">
-          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-muted">
-            <FolderOpen className="h-10 w-10 text-muted-foreground" />
+      {showAdminFeatures &&
+        !isGuestView &&
+        (!projects || projects.length === 0) && (
+          <div className="col-span-full flex flex-col items-center justify-center py-12 text-center">
+            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-muted">
+              <FolderOpen className="h-10 w-10 text-muted-foreground" />
+            </div>
+            <div className="mt-6 space-y-2">
+              <h3 className="font-semibold text-lg">No projects yet</h3>
+              <p className="max-w-md text-muted-foreground text-sm">
+                Get started by adding your first project using the card above.
+              </p>
+            </div>
           </div>
-          <div className="mt-6 space-y-2">
-            <h3 className="font-semibold text-lg">No projects yet</h3>
-            <p className="max-w-md text-muted-foreground text-sm">
-              Get started by adding your first project using the card above.
-            </p>
-          </div>
-        </div>
-      )}
+        )}
     </div>
   );
 }

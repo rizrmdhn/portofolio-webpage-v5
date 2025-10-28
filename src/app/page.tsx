@@ -13,6 +13,7 @@ import Certification from "./certification";
 import { api, HydrateClient } from "@/trpc/server";
 import MobileMenu from "@/components/mobile-menu";
 import type { MenuItem } from "@/types/mobile-menu.types";
+import { ModeViewAs } from "@/components/mode-view-as";
 
 export default async function Home() {
   const { user } = await getCurrentSession();
@@ -21,6 +22,7 @@ export default async function Home() {
   api.project.getAll.prefetch();
   api.certification.getAll.prefetch();
   api.experience.getAll.prefetch();
+  api.viewAs.getViewAs.prefetch();
 
   const mobileMenu: MenuItem[] = [
     { label: "About", href: "#about" },
@@ -73,6 +75,8 @@ export default async function Home() {
             <MobileMenu menu={mobileMenu} />
 
             <ModeToggle />
+
+            {user && <ModeViewAs />}
 
             {user ? (
               <LogoutButton className="hidden md:flex" variant="outline" />
