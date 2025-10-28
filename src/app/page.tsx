@@ -22,6 +22,7 @@ export default async function Home() {
   api.project.getAll.prefetch();
   api.certification.getAll.prefetch();
   api.experience.getAll.prefetch();
+  api.techStack.getAll.prefetch();
   api.viewAs.getViewAs.prefetch();
 
   const mobileMenu: MenuItem[] = [
@@ -89,115 +90,109 @@ export default async function Home() {
         </div>
       </header>
 
-      <main className="w-full">
-        <section id="about" className="py-12 md:py-24 lg:py-32">
-          <div className="container mx-auto px-4 md:px-6">
-            <div className="mx-auto flex max-w-4xl flex-col items-center justify-center space-y-6 text-center">
-              <div className="space-y-4">
-                <h1 className="font-bold text-2xl tracking-tighter sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
-                  Web Developer
-                </h1>
-                <p className="mx-auto max-w-[600px] px-4 text-gray-500 text-sm sm:text-base md:text-lg lg:text-xl dark:text-gray-400">
-                  I'm a freelance web developer, I'm passionate about technology
-                  and I love to learn new things.
-                </p>
-              </div>
-              <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
-                <Link href="https://github.com/rizrmdhn" target="_blank">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="h-9 w-9 sm:h-10 sm:w-10"
+      <HydrateClient>
+        <main className="w-full">
+          <section id="about" className="py-12 md:py-24 lg:py-32">
+            <div className="container mx-auto px-4 md:px-6">
+              <div className="mx-auto flex max-w-4xl flex-col items-center justify-center space-y-6 text-center">
+                <div className="space-y-4">
+                  <h1 className="font-bold text-2xl tracking-tighter sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
+                    Web Developer
+                  </h1>
+                  <p className="mx-auto max-w-[600px] px-4 text-gray-500 text-sm sm:text-base md:text-lg lg:text-xl dark:text-gray-400">
+                    I'm a freelance web developer, I'm passionate about
+                    technology and I love to learn new things.
+                  </p>
+                </div>
+                <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+                  <Link href="https://github.com/rizrmdhn" target="_blank">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="h-9 w-9 sm:h-10 sm:w-10"
+                    >
+                      <FaGithub className="h-3 w-3 sm:h-4 sm:w-4" />
+                      <span className="sr-only">GitHub</span>
+                    </Button>
+                  </Link>
+                  <Link
+                    href="https://www.linkedin.com/in/rizrmdhn/"
+                    target="_blank"
                   >
-                    <FaGithub className="h-3 w-3 sm:h-4 sm:w-4" />
-                    <span className="sr-only">GitHub</span>
-                  </Button>
-                </Link>
-                <Link
-                  href="https://www.linkedin.com/in/rizrmdhn/"
-                  target="_blank"
-                >
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="h-9 w-9 sm:h-10 sm:w-10"
-                  >
-                    <Linkedin className="h-3 w-3 sm:h-4 sm:w-4" />
-                    <span className="sr-only">LinkedIn</span>
-                  </Button>
-                </Link>
-                <Link href="https://x.com/rizrmdhn_" target="_blank">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="h-9 w-9 sm:h-10 sm:w-10"
-                  >
-                    <FaTwitter className="h-3 w-3 sm:h-4 sm:w-4" />
-                    <span className="sr-only">Twitter</span>
-                  </Button>
-                </Link>
-                <Link href="mailto:rizrmdhn.work@gmail.com">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="h-9 w-9 sm:h-10 sm:w-10"
-                  >
-                    <Mail className="h-3 w-3 sm:h-4 sm:w-4" />
-                    <span className="sr-only">Email</span>
-                  </Button>
-                </Link>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="h-9 w-9 sm:h-10 sm:w-10"
+                    >
+                      <Linkedin className="h-3 w-3 sm:h-4 sm:w-4" />
+                      <span className="sr-only">LinkedIn</span>
+                    </Button>
+                  </Link>
+                  <Link href="https://x.com/rizrmdhn_" target="_blank">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="h-9 w-9 sm:h-10 sm:w-10"
+                    >
+                      <FaTwitter className="h-3 w-3 sm:h-4 sm:w-4" />
+                      <span className="sr-only">Twitter</span>
+                    </Button>
+                  </Link>
+                  <Link href="mailto:rizrmdhn.work@gmail.com">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="h-9 w-9 sm:h-10 sm:w-10"
+                    >
+                      <Mail className="h-3 w-3 sm:h-4 sm:w-4" />
+                      <span className="sr-only">Email</span>
+                    </Button>
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section
-          id="experience"
-          className="bg-muted/50 py-12 md:py-24 lg:py-32"
-        >
-          <div className="container mx-auto px-4 md:px-6">
-            <h2 className="mb-8 text-center font-bold text-2xl tracking-tighter sm:mb-12 sm:text-3xl md:text-4xl lg:text-5xl">
-              Work Experience
-            </h2>
-            <HydrateClient>
+          <section
+            id="experience"
+            className="bg-muted/50 py-12 md:py-24 lg:py-32"
+          >
+            <div className="container mx-auto px-4 md:px-6">
+              <h2 className="mb-8 text-center font-bold text-2xl tracking-tighter sm:mb-12 sm:text-3xl md:text-4xl lg:text-5xl">
+                Work Experience
+              </h2>
               <Experience />
-            </HydrateClient>
-          </div>
-        </section>
+            </div>
+          </section>
 
-        <section id="projects" className="py-12 md:py-24 lg:py-32">
-          <div className="container mx-auto px-4 md:px-6">
-            <h2 className="mb-8 text-center font-bold text-2xl tracking-tighter sm:mb-12 sm:text-3xl md:text-4xl lg:text-5xl">
-              Projects
-            </h2>
-            <HydrateClient>
+          <section id="projects" className="py-12 md:py-24 lg:py-32">
+            <div className="container mx-auto px-4 md:px-6">
+              <h2 className="mb-8 text-center font-bold text-2xl tracking-tighter sm:mb-12 sm:text-3xl md:text-4xl lg:text-5xl">
+                Projects
+              </h2>
               <Project />
-            </HydrateClient>
-          </div>
-        </section>
+            </div>
+          </section>
 
-        <section className="bg-muted/50 py-12 md:py-24 lg:py-32">
-          <div className="container mx-auto px-4 md:px-6">
-            <h2 className="mb-8 text-center font-bold text-2xl tracking-tighter sm:mb-12 sm:text-3xl md:text-4xl lg:text-5xl">
-              Tech Stack
-            </h2>
-            <HydrateClient>
+          <section className="bg-muted/50 py-12 md:py-24 lg:py-32">
+            <div className="container mx-auto px-4 md:px-6">
+              <h2 className="mb-8 text-center font-bold text-2xl tracking-tighter sm:mb-12 sm:text-3xl md:text-4xl lg:text-5xl">
+                Tech Stack
+              </h2>
               <TechStack />
-            </HydrateClient>
-          </div>
-        </section>
+            </div>
+          </section>
 
-        <section id="certificates" className="py-12 md:py-24 lg:py-32">
-          <div className="container mx-auto px-4 md:px-6">
-            <h2 className="mb-8 text-center font-bold text-2xl tracking-tighter sm:mb-12 sm:text-3xl md:text-4xl lg:text-5xl">
-              Certificates
-            </h2>
-            <HydrateClient>
+          <section id="certificates" className="py-12 md:py-24 lg:py-32">
+            <div className="container mx-auto px-4 md:px-6">
+              <h2 className="mb-8 text-center font-bold text-2xl tracking-tighter sm:mb-12 sm:text-3xl md:text-4xl lg:text-5xl">
+                Certificates
+              </h2>
               <Certification />
-            </HydrateClient>
-          </div>
-        </section>
-      </main>
+            </div>
+          </section>
+        </main>
+      </HydrateClient>
 
       <footer className="border-t">
         <div className="container mx-auto flex w-full shrink-0 flex-col items-center gap-2 px-4 py-6 sm:flex-row md:px-6">
