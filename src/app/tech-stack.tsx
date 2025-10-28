@@ -1,19 +1,17 @@
 "use client";
 
-import ExperienceCard from "@/components/experience-card";
-import { Button } from "@/components/ui/button";
+import TechStackCard from "@/components/tech-stack-card";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import useViewAs from "@/hooks/use-view-as";
 import { api } from "@/trpc/react";
 import { ViewAsViewType } from "@/types/view-as.types";
-import { Briefcase, Plus } from "lucide-react";
-import Link from "next/link";
+import { Layers, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-export default function Experience() {
+export default function TechStack() {
   const [auth] = api.auth.me.useSuspenseQuery();
-  const [experiences, etc] = api.experience.getAll.useSuspenseQuery();
+  const [techStacks, etc] = api.techStack.getAll.useSuspenseQuery();
   const { data: viewAsSetting, isLoading: isLoadingViewAs } = useViewAs();
 
   const router = useRouter();
@@ -28,18 +26,20 @@ export default function Experience() {
 
   if (etc.isLoading) {
     return (
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="rounded-lg border p-4">
-            <div className="space-y-3">
+          <div key={i} className="flex flex-col space-y-3">
+            {/* Removed the image div because it was not needed */}
+            {/* <div className="h-[200px]">
+              <Skeleton className="h-full w-full rounded-xl" />
+            </div> */}
+            <div className="space-y-2">
               <Skeleton className="h-4 w-[250px]" />
               <Skeleton className="h-4 w-[200px]" />
-              <Skeleton className="h-4 w-[150px]" />
-              <div className="space-y-2">
-                <Skeleton className="h-4 w-full" />
-                <Skeleton className="h-4 w-full" />
-                <Skeleton className="h-4 w-2/3" />
-              </div>
+            </div>
+            <div className="flex gap-2">
+              <Skeleton className="h-4 w-[60px] rounded-full" />
+              <Skeleton className="h-4 w-[60px] rounded-full" />
             </div>
           </div>
         ))}
@@ -47,40 +47,29 @@ export default function Experience() {
     );
   }
 
-  // Empty state when no experiences and in guest view or not showing admin features
+  // Empty state when no projects and no authenticated user
   if (
-    (!experiences || experiences.length === 0) &&
+    (!techStacks || techStacks.length === 0) &&
     (isGuestView || !showAdminFeatures)
   ) {
     return (
       <div className="flex flex-col items-center justify-center py-12 text-center">
         <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-muted">
-          <Briefcase className="h-10 w-10 text-muted-foreground" />
+          <Layers className="h-10 w-10 text-muted-foreground" />
         </div>
-        <div className="mt-6 space-y-2">
-          <h3 className="font-semibold text-lg">No experience found</h3>
-          <p className="max-w-md text-muted-foreground text-sm">
-            It looks like there are no work experiences to display at the
-            moment. Check back later for updates!
-          </p>
-        </div>
-        <div className="mt-6">
-          <Link href="https://www.linkedin.com/in/rizrmdhn/" target="_blank">
-            <Button variant="outline">
-              <Plus className="mr-2 h-4 w-4" />
-              View LinkedIn
-            </Button>
-          </Link>
-        </div>
+        <h3 className="mt-4 font-semibold text-lg">No Tech Stacks Found</h3>
+        <p className="mt-2 text-muted-foreground text-sm">
+          There are no tech stacks available at the moment.
+        </p>
       </div>
     );
   }
 
-  const AddExperienceCard = () => (
+  const AddTechStackCard = () => (
     <Card
       className="group cursor-pointer overflow-hidden border-2 border-dashed transition-all duration-200 hover:border-solid hover:shadow-md active:scale-95"
       onClick={() => {
-        router.push("/experience/create");
+        router.push("/tech-stack/create");
       }}
     >
       <CardContent className="flex h-full min-h-[200px] flex-col items-center justify-center p-4">
@@ -90,10 +79,10 @@ export default function Experience() {
           </div>
           <div className="space-y-2">
             <h3 className="font-semibold text-lg transition-colors group-hover:text-primary">
-              Add New Experience
+              Add New Tech Stack
             </h3>
             <p className="text-muted-foreground text-sm">
-              Click to add a work experience
+              Click to create a new tech stack entry.
             </p>
           </div>
         </div>
@@ -102,27 +91,25 @@ export default function Experience() {
   );
 
   return (
-    <div className="grid gap-6 md:grid-cols-2">
-      {/* Add Experience Card - Only show if admin features are enabled and not in guest view */}
-      {showAdminFeatures && !isGuestView && <AddExperienceCard />}
-
-      {/* Experience Cards */}
-      {experiences?.map((exp) => (
-        <ExperienceCard key={exp.id} {...exp} />
+    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {/* Add Tech Stack Card - Only show if user is authenticated */}
+      {showAdminFeatures && !isGuestView && <AddTechStackCard />}
+      {/* Tech Stack Cards */}
+      {techStacks?.map((tech) => (
+        <TechStackCard key={tech.id} {...tech} />
       ))}
 
-      {/* Empty state when authenticated user has no experiences (admin view only) */}
       {showAdminFeatures &&
         !isGuestView &&
-        (!experiences || experiences.length === 0) && (
+        (!techStacks || techStacks.length === 0) && (
           <div className="col-span-full flex flex-col items-center justify-center py-12 text-center">
             <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-muted">
-              <Briefcase className="h-10 w-10 text-muted-foreground" />
+              <Layers className="h-10 w-10 text-muted-foreground" />
             </div>
             <div className="mt-6 space-y-2">
-              <h3 className="font-semibold text-lg">No experiences yet</h3>
+              <h3 className="font-semibold text-lg">No Tech Stacks yet</h3>
               <p className="max-w-md text-muted-foreground text-sm">
-                Get started by adding your first work experience using the card
+                Get started by adding your first tech stack using the card
                 above.
               </p>
             </div>

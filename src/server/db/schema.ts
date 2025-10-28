@@ -158,3 +158,46 @@ export const certifications = createTable(
 		return [index("certifications_id_idx").on(t.id)];
 	},
 );
+
+export const applicationSettings = createTable(
+	"application_settings",
+	(d) => ({
+		id: d
+			.uuid()
+			.primaryKey()
+			.$default(() => uuidv7()),
+		key: d.varchar({ length: 256 }).notNull().unique(),
+		data: d.jsonb().notNull(),
+		createdAt: d
+			.timestamp({ withTimezone: true })
+			.default(sql`CURRENT_TIMESTAMP`)
+			.notNull(),
+		updatedAt: d.timestamp({ withTimezone: true }).$onUpdate(() => new Date()),
+	}),
+	(t) => {
+		return [
+			index("application_settings_id_idx").on(t.id),
+			index("application_settings_key_idx").on(t.key),
+		];
+	},
+);
+
+export const techStack = createTable(
+	"tech_stack",
+	(d) => ({
+		id: d
+			.uuid()
+			.primaryKey()
+			.$default(() => uuidv7()),
+		name: d.varchar({ length: 256 }).notNull(),
+		list: d.text().array().notNull(),
+		createdAt: d
+			.timestamp({ withTimezone: true })
+			.default(sql`CURRENT_TIMESTAMP`)
+			.notNull(),
+		updatedAt: d.timestamp({ withTimezone: true }).$onUpdate(() => new Date()),
+	}),
+	(t) => {
+		return [index("tech_stack_id_idx").on(t.id)];
+	},
+);

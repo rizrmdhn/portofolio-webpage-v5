@@ -15,6 +15,7 @@ import { Menu } from "lucide-react";
 import LogoutButton from "./logout-button";
 import Link from "next/link";
 import { ModeToggle } from "./mode-toggle";
+import { ModeViewAs } from "./mode-view-as";
 
 interface MobileMenuProps {
   menu: MenuItem[];
@@ -50,11 +51,15 @@ export default async function MobileMenu({ menu }: MobileMenuProps) {
         <SheetFooter>
           <ModeToggle className="flex w-full" label="Change Theme" />
 
+          {user && <ModeViewAs className="flex w-full" />}
+
           {user ? (
             <LogoutButton variant="outline" />
           ) : (
             <Link href="/login">
-              <Button variant="outline">Login</Button>
+              <Button variant="outline" className="w-full">
+                Login
+              </Button>
             </Link>
           )}
         </SheetFooter>
