@@ -3,7 +3,6 @@
 import TechStackCard from "@/components/tech-stack-card";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import useViewAs from "@/hooks/use-view-as";
 import { api } from "@/trpc/react";
 import { ViewAsViewType } from "@/types/view-as.types";
 import { Layers, Plus } from "lucide-react";
@@ -12,7 +11,7 @@ import { useRouter } from "next/navigation";
 export default function TechStack() {
   const [auth] = api.auth.me.useSuspenseQuery();
   const [techStacks, etc] = api.techStack.getAll.useSuspenseQuery();
-  const { data: viewAsSetting, isLoading: isLoadingViewAs } = useViewAs();
+  const [viewAsSetting, etcViewAs] = api.viewAs.getViewAs.useSuspenseQuery();
 
   const router = useRouter();
 
@@ -22,7 +21,7 @@ export default function TechStack() {
 
   // Show admin features if user is authenticated AND view is set to ADMIN (or no viewAs setting)
   const showAdminFeatures =
-    auth && (isAdminView || (!isLoadingViewAs && !viewAsSetting));
+    auth && (isAdminView || (!etcViewAs.isLoading && !viewAsSetting));
 
   if (etc.isLoading) {
     return (

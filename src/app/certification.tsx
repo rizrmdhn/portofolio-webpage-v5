@@ -4,7 +4,6 @@ import CertificationCard from "@/components/certification-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import useViewAs from "@/hooks/use-view-as";
 import { api } from "@/trpc/react";
 import { ViewAsViewType } from "@/types/view-as.types";
 import { Award, Plus } from "lucide-react";
@@ -14,7 +13,7 @@ import { useRouter } from "next/navigation";
 export default function Certification() {
   const [auth] = api.auth.me.useSuspenseQuery();
   const [certifications, etc] = api.certification.getAll.useSuspenseQuery();
-  const { data: viewAsSetting, isLoading: isLoadingViewAs } = useViewAs();
+  const [viewAsSetting, etcViewAs] = api.viewAs.getViewAs.useSuspenseQuery();
 
   const router = useRouter();
 
@@ -24,7 +23,7 @@ export default function Certification() {
 
   // Show admin features if user is authenticated AND view is set to ADMIN (or no viewAs setting)
   const showAdminFeatures =
-    auth && (isAdminView || (!isLoadingViewAs && !viewAsSetting));
+    auth && (isAdminView || (!etcViewAs.isLoading && !viewAsSetting));
 
   if (etc.isLoading) {
     return (
