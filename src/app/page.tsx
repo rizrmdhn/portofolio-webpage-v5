@@ -77,7 +77,11 @@ export default async function Home() {
 
             <ModeToggle />
 
-            {user && <ModeViewAs />}
+            {user && (
+              <HydrateClient>
+                <ModeViewAs />
+              </HydrateClient>
+            )}
 
             {user ? (
               <LogoutButton className="hidden md:flex" variant="outline" />
