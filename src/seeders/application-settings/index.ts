@@ -3,7 +3,7 @@ import { db } from "@/server/db";
 import { createInsertSchema } from "drizzle-zod";
 import type { z } from "zod";
 import { applicationSettings } from "../../server/db/schema";
-import { ViewAsType } from "@/types/view-as.types";
+import { ViewAsViewType } from "@/types/view-as.types";
 
 const insertApplicationSettingsSchema = createInsertSchema(applicationSettings);
 
@@ -18,7 +18,7 @@ const generateApplicationSettings = async (): Promise<
 
 	rows.push({
 		key: "viewAs",
-		data: { value: ViewAsType.GUEST },
+		data: { value: ViewAsViewType.GUEST },
 	});
 
 	return rows;
