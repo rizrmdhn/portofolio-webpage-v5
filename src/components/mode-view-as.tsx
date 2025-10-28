@@ -11,21 +11,41 @@ import { cn } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import { ViewAsViewType } from "@/types/view-as.types";
 import { LoaderCircle } from "lucide-react";
+import { useState, useEffect } from "react";
 
 interface ModeViewAsProps {
   className?: string;
 }
 
 export function ModeViewAs({ className }: ModeViewAsProps) {
+  const [isClient, setIsClient] = useState(false);
   const utils = api.useUtils();
 
   const { data: viewAsData, isLoading } = api.viewAs.getViewAs.useQuery();
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const setViewAsMutation = api.viewAs.setViewAs.useMutation({
     onSuccess: () => {
       utils.viewAs.getViewAs.invalidate();
     },
   });
+
+  // Don't render until client is ready to prevent hydration mismatch
+  if (!isClient) {
+    return (
+      <Button
+        variant="outline"
+        size="icon"
+        className={cn("hidden w-20 md:flex", className)}
+        disabled
+      >
+        GUEST
+      </Button>
+    );
+  }
 
   return (
     <DropdownMenu>
@@ -34,9 +54,9 @@ export function ModeViewAs({ className }: ModeViewAsProps) {
           variant="outline"
           size="icon"
           className={cn("hidden w-20 md:flex", className)}
-          disabled={isLoading}
+          disabled={isLoading || setViewAsMutation.isPending}
         >
-          {isLoading ? (
+          {isLoading || setViewAsMutation.isPending ? (
             <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
           ) : (
             viewAsData?.data.value ?? "GUEST"
@@ -48,6 +68,7 @@ export function ModeViewAs({ className }: ModeViewAsProps) {
           onClick={() =>
             setViewAsMutation.mutate({ value: ViewAsViewType.GUEST })
           }
+          disabled={setViewAsMutation.isPending}
         >
           GUEST
         </DropdownMenuItem>
@@ -55,6 +76,7 @@ export function ModeViewAs({ className }: ModeViewAsProps) {
           onClick={() => {
             setViewAsMutation.mutate({ value: ViewAsViewType.ADMIN });
           }}
+          disabled={setViewAsMutation.isPending}
         >
           ADMIN
         </DropdownMenuItem>
