@@ -36,7 +36,7 @@ export default async function Home() {
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
         <div className="flex h-14 items-center justify-between px-4">
           <div className="flex items-center">
-            <Link className="flex items-center space-x-2" href="/">
+            <Link className="flex items-center space-x-2" href="#">
               <span className="font-bold text-lg">rizrmdhn</span>
             </Link>
           </div>
