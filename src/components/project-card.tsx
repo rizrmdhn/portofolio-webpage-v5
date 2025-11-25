@@ -146,8 +146,7 @@ export default function ProjectCard({
                 button: <Upload className="h-4 w-4" />,
               }}
               endpoint="imageUploader"
-              onClientUploadComplete={(res) => {
-                console.log("Files: ", res);
+              onClientUploadComplete={() => {
                 globalSuccessToast("Image uploaded successfully");
                 utils.project.getAll.invalidate();
               }}

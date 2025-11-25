@@ -21,16 +21,19 @@ export default function Project() {
   const [filteredProjects, setFilteredProjects] = useState(projects);
   const [filterTech, setFilterTech] = useState<string[]>([]);
 
-  // Apply filtering based on selected technologies
+  // Apply filtering based on selected
   useEffect(() => {
     if (filterTech.length === 0) {
       setFilteredProjects(projects);
-      return;
+    } else {
+      // jika ada 2 filterTech, maka project harus mengandung tidak harus semua tech tersebut
+      const filtered = projects.filter((proj) =>
+        proj.tech.some((tech) =>
+          filterTech.includes(tech.charAt(0).toUpperCase() + tech.slice(1))
+        )
+      );
+      setFilteredProjects(filtered);
     }
-    const filtered = projects.filter((proj) =>
-      filterTech.every((tech) => proj.tech.includes(tech))
-    );
-    setFilteredProjects(filtered);
   }, [filterTech, projects]);
 
   const router = useRouter();
@@ -122,8 +125,13 @@ export default function Project() {
     </Card>
   );
 
+  // when flatten and get unique tech tags and locally uppercase first letter
   const techTags = projects
-    ? Array.from(new Set(projects.flatMap((proj) => proj.tech))).sort()
+    ? Array.from(new Set(projects.flatMap((proj) => proj.tech)))
+        .map((tech) => {
+          return tech.charAt(0).toUpperCase() + tech.slice(1);
+        })
+        .sort()
     : [];
 
   function onFilterChange(selectedTech: string[]) {
