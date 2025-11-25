@@ -1,6 +1,7 @@
 "use client";
 
 import ProjectCard from "@/components/project-card";
+import ProjectFilter from "@/components/project-filter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -9,11 +10,28 @@ import { ViewAsViewType } from "@/types/view-as.types";
 import { FolderOpen, Plus } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Project() {
   const [auth] = api.auth.me.useSuspenseQuery();
   const [projects, etc] = api.project.getAll.useSuspenseQuery();
   const [viewAsSetting, etcViewAs] = api.viewAs.getViewAs.useSuspenseQuery();
+
+  // Filtered projects state
+  const [filteredProjects, setFilteredProjects] = useState(projects);
+  const [filterTech, setFilterTech] = useState<string[]>([]);
+
+  // Apply filtering based on selected technologies
+  useEffect(() => {
+    if (filterTech.length === 0) {
+      setFilteredProjects(projects);
+      return;
+    }
+    const filtered = projects.filter((proj) =>
+      filterTech.every((tech) => proj.tech.includes(tech))
+    );
+    setFilteredProjects(filtered);
+  }, [filterTech, projects]);
 
   const router = useRouter();
 
@@ -24,6 +42,8 @@ export default function Project() {
   // Show admin features if user is authenticated AND view is set to ADMIN (or no viewAs setting)
   const showAdminFeatures =
     auth && (isAdminView || (!etcViewAs.isLoading && !viewAsSetting));
+
+  // Loading state
 
   if (etc.isLoading) {
     return (
@@ -102,32 +122,49 @@ export default function Project() {
     </Card>
   );
 
+  const techTags = projects
+    ? Array.from(new Set(projects.flatMap((proj) => proj.tech))).sort()
+    : [];
+
+  function onFilterChange(selectedTech: string[]) {
+    setFilterTech(selectedTech);
+  }
+
   return (
-    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {/* Add Project Card - Only show if user is authenticated */}
-      {showAdminFeatures && !isGuestView && <AddProjectCard />}
+    <div className="flex flex-col gap-2">
+      {/* Filter Button */}
+      <div className="mb-4 flex items-center justify-center">
+        <ProjectFilter tech={techTags} onFilterChange={onFilterChange} />
+      </div>
 
-      {/* Project Cards */}
-      {projects?.map((proj) => (
-        <ProjectCard key={proj.id} {...proj} views={proj.projectView.count} />
-      ))}
+      {/* Project Grid */}
 
-      {/* Empty state when authenticated user has no projects */}
-      {showAdminFeatures &&
-        !isGuestView &&
-        (!projects || projects.length === 0) && (
-          <div className="col-span-full flex flex-col items-center justify-center py-12 text-center">
-            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-muted">
-              <FolderOpen className="h-10 w-10 text-muted-foreground" />
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {/* Add Project Card - Only show if user is authenticated */}
+        {showAdminFeatures && !isGuestView && <AddProjectCard />}
+
+        {/* Project Cards */}
+        {filteredProjects?.map((proj) => (
+          <ProjectCard key={proj.id} {...proj} views={proj.projectView.count} />
+        ))}
+
+        {/* Empty state when authenticated user has no projects */}
+        {showAdminFeatures &&
+          !isGuestView &&
+          (!filteredProjects || filteredProjects.length === 0) && (
+            <div className="col-span-full flex flex-col items-center justify-center py-12 text-center">
+              <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-muted">
+                <FolderOpen className="h-10 w-10 text-muted-foreground" />
+              </div>
+              <div className="mt-6 space-y-2">
+                <h3 className="font-semibold text-lg">No projects yet</h3>
+                <p className="max-w-md text-muted-foreground text-sm">
+                  Get started by adding your first project using the card above.
+                </p>
+              </div>
             </div>
-            <div className="mt-6 space-y-2">
-              <h3 className="font-semibold text-lg">No projects yet</h3>
-              <p className="max-w-md text-muted-foreground text-sm">
-                Get started by adding your first project using the card above.
-              </p>
-            </div>
-          </div>
-        )}
+          )}
+      </div>
     </div>
   );
 }
