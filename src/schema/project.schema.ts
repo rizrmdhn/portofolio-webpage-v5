@@ -9,6 +9,8 @@ const createProjectSchema = createInsertSchema(projects, {
 	description: true,
 	github_url: true,
 	live_url: true,
+	playstore_url: true,
+	appstore_url: true,
 	tech: true,
 });
 
@@ -24,6 +26,8 @@ const updateProjectSchema = createInsertSchema(projects, {
 		description: true,
 		github_url: true,
 		live_url: true,
+		playstore_url: true,
+		appstore_url: true,
 		tech: true,
 	});
 
