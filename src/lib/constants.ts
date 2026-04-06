@@ -16,4 +16,8 @@ export const EXPERIENCE_TYPES = [
 	"internship",
 	"full-time",
 	"freelance",
+	"part-time",
+	"contract",
+	"temporary",
+	"volunteer",
 ] as const;
