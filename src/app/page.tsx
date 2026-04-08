@@ -113,8 +113,11 @@ export default async function Home() {
                     Web Developer
                   </h1>
                   <p className="mx-auto max-w-[600px] px-4 text-gray-500 text-sm sm:text-base md:text-lg lg:text-xl dark:text-gray-400">
-                    I'm a freelance web developer, I'm passionate about
-                    technology and I love to learn new things.
+                    I&apos;m a freelance frontend web developer specializing in
+                    responsive, high-performance interfaces for modern web apps.
+                    I build clean, scalable React/Next.js solutions and work
+                    effectively in both remote and on-site teams through clear
+                    communication and reliable delivery.
                   </p>
                 </div>
                 <div className="flex flex-col flex-wrap items-center justify-center gap-3 sm:gap-4">

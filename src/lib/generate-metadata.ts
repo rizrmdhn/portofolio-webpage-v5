@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 const generateMetadata = (metadata?: Metadata) => {
 	const title =
-		typeof metadata?.title === "string" ? metadata.title : "Rizrmdhn";
+		typeof metadata?.title === "string" ? metadata.title : "rizrmdhn";
 
 	return {
 		title: `${title} | Portofolio`,
