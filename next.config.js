@@ -7,6 +7,7 @@ import "./src/env.js";
 /** @type {import("next").NextConfig} */
 const config = {
 	reactStrictMode: true,
+	reactCompiler: true,
 	images: {
 		remotePatterns: [
 			{
@@ -18,7 +19,6 @@ const config = {
 	},
 	experimental: {
 		authInterrupts: true,
-		reactCompiler: true,
 	},
 	typedRoutes: true,
 	output: "standalone",
