@@ -26,7 +26,6 @@ import {
   Upload,
 } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaGithub } from "react-icons/fa";
@@ -211,6 +210,7 @@ export default function ProjectCard({
       {image_url && (
         <div className="relative h-48 w-full overflow-hidden">
           <Image
+            loading="eager"
             src={image_url}
             alt={`${name} project screenshot`}
             fill
