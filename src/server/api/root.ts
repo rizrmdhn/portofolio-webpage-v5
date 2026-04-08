@@ -1,10 +1,11 @@
 import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
 import { authRouter } from "./routers/auth";
 import { certificationRouter } from "./routers/certification";
+import { cvRouter } from "./routers/cv";
 import { experienceRouter } from "./routers/experience";
 import { projectRouter } from "./routers/project";
-import { viewAsRouter } from "./routers/view-as";
 import { techStackRouter } from "./routers/tech-stack";
+import { viewAsRouter } from "./routers/view-as";
 
 /**
  * This is the primary router for your server.
@@ -17,6 +18,7 @@ export const appRouter = createTRPCRouter({
 	experience: experienceRouter,
 	certification: certificationRouter,
 	techStack: techStackRouter,
+	cv: cvRouter,
 	viewAs: viewAsRouter,
 });
 

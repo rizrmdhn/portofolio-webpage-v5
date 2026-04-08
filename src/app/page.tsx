@@ -1,19 +1,19 @@
 import LogoutButton from "@/components/logout-button";
+import MobileMenu from "@/components/mobile-menu";
 import { ModeToggle } from "@/components/mode-toggle";
-import TechStack from "./tech-stack";
+import { ModeViewAs } from "@/components/mode-view-as";
 import { Button } from "@/components/ui/button";
 import getCurrentSession from "@/server/auth/sessions";
+import { HydrateClient, api } from "@/trpc/server";
+import type { MenuItem } from "@/types/mobile-menu.types";
 import { format } from "date-fns";
-import { Linkedin, Mail, Menu } from "lucide-react";
+import { Linkedin, Mail } from "lucide-react";
 import Link from "next/link";
 import { FaGithub, FaTwitter } from "react-icons/fa";
+import Certification from "./certification";
 import Experience from "./experience";
 import Project from "./project";
-import Certification from "./certification";
-import { api, HydrateClient } from "@/trpc/server";
-import MobileMenu from "@/components/mobile-menu";
-import type { MenuItem } from "@/types/mobile-menu.types";
-import { ModeViewAs } from "@/components/mode-view-as";
+import TechStack from "./tech-stack";
 
 export default async function Home() {
   const { user } = await getCurrentSession();
@@ -23,6 +23,7 @@ export default async function Home() {
   api.certification.getAll.prefetch();
   api.experience.getAll.prefetch();
   api.techStack.getAll.prefetch();
+  api.cv.getCV.prefetch();
   api.viewAs.getViewAs.prefetch();
 
   const mobileMenu: MenuItem[] = [
@@ -30,6 +31,8 @@ export default async function Home() {
     { label: "Experience", href: "#experience" },
     { label: "Projects", href: "#projects" },
     { label: "Certificates", href: "#certificates" },
+    { label: "Resume", href: "/resume" },
+    { label: "Download Resume", href: "/resume/download" },
   ];
 
   return (
@@ -67,6 +70,12 @@ export default async function Home() {
               className="transition-colors hover:text-foreground/80"
             >
               Certificates
+            </Link>
+            <Link
+              href="/resume"
+              className="transition-colors hover:text-foreground/80"
+            >
+              Resume
             </Link>
           </nav>
 
@@ -108,49 +117,54 @@ export default async function Home() {
                     technology and I love to learn new things.
                   </p>
                 </div>
-                <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
-                  <Link href="https://github.com/rizrmdhn" target="_blank">
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="h-9 w-9 sm:h-10 sm:w-10"
+                <div className="flex flex-col flex-wrap items-center justify-center gap-3 sm:gap-4">
+                  <div className="flex flex-row gap-3">
+                    <Link href="https://github.com/rizrmdhn" target="_blank">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="h-9 w-9 sm:h-10 sm:w-10"
+                      >
+                        <FaGithub className="h-3 w-3 sm:h-4 sm:w-4" />
+                        <span className="sr-only">GitHub</span>
+                      </Button>
+                    </Link>
+                    <Link
+                      href="https://www.linkedin.com/in/rizrmdhn/"
+                      target="_blank"
                     >
-                      <FaGithub className="h-3 w-3 sm:h-4 sm:w-4" />
-                      <span className="sr-only">GitHub</span>
-                    </Button>
-                  </Link>
-                  <Link
-                    href="https://www.linkedin.com/in/rizrmdhn/"
-                    target="_blank"
-                  >
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="h-9 w-9 sm:h-10 sm:w-10"
-                    >
-                      <Linkedin className="h-3 w-3 sm:h-4 sm:w-4" />
-                      <span className="sr-only">LinkedIn</span>
-                    </Button>
-                  </Link>
-                  <Link href="https://x.com/rizrmdhn_" target="_blank">
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="h-9 w-9 sm:h-10 sm:w-10"
-                    >
-                      <FaTwitter className="h-3 w-3 sm:h-4 sm:w-4" />
-                      <span className="sr-only">Twitter</span>
-                    </Button>
-                  </Link>
-                  <Link href="mailto:rizrmdhn.work@gmail.com">
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="h-9 w-9 sm:h-10 sm:w-10"
-                    >
-                      <Mail className="h-3 w-3 sm:h-4 sm:w-4" />
-                      <span className="sr-only">Email</span>
-                    </Button>
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="h-9 w-9 sm:h-10 sm:w-10"
+                      >
+                        <Linkedin className="h-3 w-3 sm:h-4 sm:w-4" />
+                        <span className="sr-only">LinkedIn</span>
+                      </Button>
+                    </Link>
+                    <Link href="https://x.com/rizrmdhn_" target="_blank">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="h-9 w-9 sm:h-10 sm:w-10"
+                      >
+                        <FaTwitter className="h-3 w-3 sm:h-4 sm:w-4" />
+                        <span className="sr-only">Twitter</span>
+                      </Button>
+                    </Link>
+                    <Link href="mailto:rizrmdhn.work@gmail.com">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="h-9 w-9 sm:h-10 sm:w-10"
+                      >
+                        <Mail className="h-3 w-3 sm:h-4 sm:w-4" />
+                        <span className="sr-only">Email</span>
+                      </Button>
+                    </Link>
+                  </div>
+                  <Link href="/resume/download" target="_blank">
+                    <Button>Download Resume</Button>
                   </Link>
                 </div>
               </div>
