@@ -12,25 +12,25 @@ export const metadata = generateMetadata({
 
 export default async function ResumePage() {
   return (
-    <div className="container mx-auto flex flex-col gap-4 px-4 py-8 md:px-6">
-      <div className="flex items-center justify-between gap-2 border-b pb-4">
-        <Button asChild variant="outline" size="sm">
-          <Link href="/">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back
-          </Link>
-        </Button>
-      </div>
+    <HydrateClient>
+      <div className="container mx-auto flex flex-col gap-4 px-4 py-8 md:px-6">
+        <div className="flex items-center justify-between gap-2 border-b pb-4">
+          <Button asChild variant="outline" size="sm">
+            <Link href="/">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back
+            </Link>
+          </Button>
+        </div>
 
-      <h1 className="font-bold text-2xl tracking-tight md:text-3xl">
-        My Resume
-      </h1>
-      <p className="text-muted-foreground text-sm md:text-base">
-        View the latest resume online or download the dedicated file.
-      </p>
-      <HydrateClient>
+        <h1 className="font-bold text-2xl tracking-tight md:text-3xl">
+          My Resume
+        </h1>
+        <p className="text-muted-foreground text-sm md:text-base">
+          View the latest resume online or download the dedicated file.
+        </p>
         <CVViewer />
-      </HydrateClient>
-    </div>
+      </div>
+    </HydrateClient>
   );
 }
