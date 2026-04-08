@@ -36,74 +36,70 @@ export default async function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
-        <div className="flex h-14 items-center justify-between px-4">
-          <div className="flex items-center">
-            <Link className="flex items-center space-x-2" href="#">
-              <span className="font-bold text-lg">rizrmdhn</span>
-            </Link>
-          </div>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden items-center space-x-6 font-medium text-sm md:flex">
-            <Link
-              href="#about"
-              className="transition-colors hover:text-foreground/80"
-            >
-              About
-            </Link>
-            <Link
-              href="#experience"
-              className="transition-colors hover:text-foreground/80"
-            >
-              Experience
-            </Link>
-            <Link
-              href="#projects"
-              className="transition-colors hover:text-foreground/80"
-            >
-              Projects
-            </Link>
-            <Link
-              href="#certificates"
-              className="transition-colors hover:text-foreground/80"
-            >
-              Certificates
-            </Link>
-            <Link
-              href="/resume"
-              className="transition-colors hover:text-foreground/80"
-            >
-              Resume
-            </Link>
-          </nav>
-
-          {/* Right side items */}
-          <div className="flex items-center space-x-2">
-            {/* Mobile Menu Button */}
-            <MobileMenu menu={mobileMenu} />
-
-            <ModeToggle />
-
-            {user && (
-              <HydrateClient>
-                <ModeViewAs />
-              </HydrateClient>
-            )}
-
-            {user ? (
-              <LogoutButton className="hidden md:flex" variant="outline" />
-            ) : (
-              <Link href="/login" className="hidden md:block">
-                <Button variant="outline">Login</Button>
+    <HydrateClient>
+      <div className="min-h-screen bg-background">
+        <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
+          <div className="flex h-14 items-center justify-between px-4">
+            <div className="flex items-center">
+              <Link className="flex items-center space-x-2" href="#">
+                <span className="font-bold text-lg">rizrmdhn</span>
               </Link>
-            )}
-          </div>
-        </div>
-      </header>
+            </div>
 
-      <HydrateClient>
+            {/* Desktop Navigation */}
+            <nav className="hidden items-center space-x-6 font-medium text-sm md:flex">
+              <Link
+                href="#about"
+                className="transition-colors hover:text-foreground/80"
+              >
+                About
+              </Link>
+              <Link
+                href="#experience"
+                className="transition-colors hover:text-foreground/80"
+              >
+                Experience
+              </Link>
+              <Link
+                href="#projects"
+                className="transition-colors hover:text-foreground/80"
+              >
+                Projects
+              </Link>
+              <Link
+                href="#certificates"
+                className="transition-colors hover:text-foreground/80"
+              >
+                Certificates
+              </Link>
+              <Link
+                href="/resume"
+                className="transition-colors hover:text-foreground/80"
+              >
+                Resume
+              </Link>
+            </nav>
+
+            {/* Right side items */}
+            <div className="flex items-center space-x-2">
+              {/* Mobile Menu Button */}
+              <MobileMenu menu={mobileMenu} />
+
+              <ModeToggle />
+
+              {user && <ModeViewAs />}
+
+              {user ? (
+                <LogoutButton className="hidden md:flex" variant="outline" />
+              ) : (
+                <Link href="/login" className="hidden md:block">
+                  <Button variant="outline">Login</Button>
+                </Link>
+              )}
+            </div>
+          </div>
+        </header>
+
         <main className="w-full">
           <section id="about" className="py-12 md:py-24 lg:py-32">
             <div className="container mx-auto px-4 md:px-6">
@@ -213,15 +209,15 @@ export default async function Home() {
             </div>
           </section>
         </main>
-      </HydrateClient>
 
-      <footer className="border-t">
-        <div className="container mx-auto flex w-full shrink-0 flex-col items-center justify-center gap-2 px-4 py-6 sm:flex-row md:px-6">
-          <p className="text-center text-gray-500 text-xs sm:text-left dark:text-gray-400">
-            © {format(new Date(), "yyyy")} rizrmdhn. All rights reserved.
-          </p>
-        </div>
-      </footer>
-    </div>
+        <footer className="border-t">
+          <div className="container mx-auto flex w-full shrink-0 flex-col items-center justify-center gap-2 px-4 py-6 sm:flex-row md:px-6">
+            <p className="text-center text-gray-500 text-xs sm:text-left dark:text-gray-400">
+              © {format(new Date(), "yyyy")} rizrmdhn. All rights reserved.
+            </p>
+          </div>
+        </footer>
+      </div>
+    </HydrateClient>
   );
 }
