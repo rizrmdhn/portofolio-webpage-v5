@@ -29,8 +29,8 @@ export default function Project() {
       // jika ada 2 filterTech, maka project harus mengandung tidak harus semua tech tersebut
       const filtered = projects.filter((proj) =>
         proj.tech.some((tech) =>
-          filterTech.includes(tech.charAt(0).toUpperCase() + tech.slice(1))
-        )
+          filterTech.includes(tech.charAt(0).toUpperCase() + tech.slice(1)),
+        ),
       );
       setFilteredProjects(filtered);
     }
@@ -127,11 +127,15 @@ export default function Project() {
 
   // when flatten and get unique tech tags and locally uppercase first letter
   const techTags = projects
-    ? Array.from(new Set(projects.flatMap((proj) => proj.tech)))
-        .map((tech) => {
-          return tech.charAt(0).toUpperCase() + tech.slice(1);
-        })
-        .sort()
+    ? Array.from(
+        new Set(
+          projects
+            .flatMap((proj) => proj.tech)
+            .map((tech) => tech.trim())
+            .filter(Boolean)
+            .map((tech) => tech.charAt(0).toUpperCase() + tech.slice(1)),
+        ),
+      ).sort()
     : [];
 
   function onFilterChange(selectedTech: string[]) {

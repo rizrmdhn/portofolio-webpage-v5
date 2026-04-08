@@ -1,6 +1,8 @@
 import { env } from "@/env";
 import getCurrentSession from "@/server/auth/sessions";
+import cvQueries from "@/server/queries/cv.queries";
 import projectQueries from "@/server/queries/project.queries";
+import utapi from "@/server/uploadthing";
 import { type FileRouter, createUploadthing } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
 import z from "zod";
@@ -48,6 +50,37 @@ export const ourFileRouter = {
 			);
 
 			// !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
+			return { uploadedBy: metadata.userId };
+		}),
+	cvUploader: f({
+		pdf: {
+			maxFileSize: "8MB",
+			maxFileCount: 1,
+		},
+	})
+		.middleware(async () => {
+			const { user } = await getCurrentSession();
+
+			if (!user) throw new UploadThingError("Unauthorized");
+
+			if (user.email !== env.ALLOWED_EMAIL_LOGIN)
+				throw new UploadThingError("Unauthorized");
+
+			return { userId: user.id };
+		})
+		.onUploadComplete(async ({ metadata, file }) => {
+			const existingCV = await cvQueries.getCVSetting();
+
+			if (existingCV?.data.fileKey) {
+				await utapi.deleteFiles(existingCV.data.fileKey);
+			}
+
+			await cvQueries.setCVSetting({
+				url: file.ufsUrl,
+				fileKey: file.key,
+				uploadedAt: new Date().toISOString(),
+			});
+
 			return { uploadedBy: metadata.userId };
 		}),
 } satisfies FileRouter;

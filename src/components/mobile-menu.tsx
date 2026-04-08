@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -9,11 +11,11 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import getCurrentSession from "@/server/auth/sessions";
+import { api } from "@/trpc/react";
 import type { MenuItem } from "@/types/mobile-menu.types";
 import { Menu } from "lucide-react";
-import LogoutButton from "./logout-button";
 import Link from "next/link";
+import LogoutButton from "./logout-button";
 import { ModeToggle } from "./mode-toggle";
 import { ModeViewAs } from "./mode-view-as";
 
@@ -21,8 +23,8 @@ interface MobileMenuProps {
   menu: MenuItem[];
 }
 
-export default async function MobileMenu({ menu }: MobileMenuProps) {
-  const { user } = await getCurrentSession();
+export default function MobileMenu({ menu }: MobileMenuProps) {
+  const { data: user } = api.auth.me.useQuery();
 
   return (
     <Sheet>
@@ -51,7 +53,7 @@ export default async function MobileMenu({ menu }: MobileMenuProps) {
         <SheetFooter>
           <ModeToggle className="flex w-full" label="Change Theme" />
 
-          {user && <ModeViewAs className="flex w-full" />}
+          {user ? <ModeViewAs className="flex w-full" /> : null}
 
           {user ? (
             <LogoutButton variant="outline" />

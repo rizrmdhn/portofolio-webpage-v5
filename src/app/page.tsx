@@ -1,19 +1,19 @@
 import LogoutButton from "@/components/logout-button";
+import MobileMenu from "@/components/mobile-menu";
 import { ModeToggle } from "@/components/mode-toggle";
-import TechStack from "./tech-stack";
+import { ModeViewAs } from "@/components/mode-view-as";
 import { Button } from "@/components/ui/button";
 import getCurrentSession from "@/server/auth/sessions";
+import { HydrateClient, api } from "@/trpc/server";
+import type { MenuItem } from "@/types/mobile-menu.types";
 import { format } from "date-fns";
-import { Linkedin, Mail, Menu } from "lucide-react";
+import { Linkedin, Mail } from "lucide-react";
 import Link from "next/link";
 import { FaGithub, FaTwitter } from "react-icons/fa";
+import Certification from "./certification";
 import Experience from "./experience";
 import Project from "./project";
-import Certification from "./certification";
-import { api, HydrateClient } from "@/trpc/server";
-import MobileMenu from "@/components/mobile-menu";
-import type { MenuItem } from "@/types/mobile-menu.types";
-import { ModeViewAs } from "@/components/mode-view-as";
+import TechStack from "./tech-stack";
 
 export default async function Home() {
   const { user } = await getCurrentSession();
@@ -23,6 +23,7 @@ export default async function Home() {
   api.certification.getAll.prefetch();
   api.experience.getAll.prefetch();
   api.techStack.getAll.prefetch();
+  api.cv.getCV.prefetch();
   api.viewAs.getViewAs.prefetch();
 
   const mobileMenu: MenuItem[] = [
@@ -30,71 +31,75 @@ export default async function Home() {
     { label: "Experience", href: "#experience" },
     { label: "Projects", href: "#projects" },
     { label: "Certificates", href: "#certificates" },
+    { label: "Resume", href: "/resume" },
+    { label: "Download Resume", href: "/resume/download" },
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
-        <div className="flex h-14 items-center justify-between px-4">
-          <div className="flex items-center">
-            <Link className="flex items-center space-x-2" href="#">
-              <span className="font-bold text-lg">rizrmdhn</span>
-            </Link>
-          </div>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden items-center space-x-6 font-medium text-sm md:flex">
-            <Link
-              href="#about"
-              className="transition-colors hover:text-foreground/80"
-            >
-              About
-            </Link>
-            <Link
-              href="#experience"
-              className="transition-colors hover:text-foreground/80"
-            >
-              Experience
-            </Link>
-            <Link
-              href="#projects"
-              className="transition-colors hover:text-foreground/80"
-            >
-              Projects
-            </Link>
-            <Link
-              href="#certificates"
-              className="transition-colors hover:text-foreground/80"
-            >
-              Certificates
-            </Link>
-          </nav>
-
-          {/* Right side items */}
-          <div className="flex items-center space-x-2">
-            {/* Mobile Menu Button */}
-            <MobileMenu menu={mobileMenu} />
-
-            <ModeToggle />
-
-            {user && (
-              <HydrateClient>
-                <ModeViewAs />
-              </HydrateClient>
-            )}
-
-            {user ? (
-              <LogoutButton className="hidden md:flex" variant="outline" />
-            ) : (
-              <Link href="/login" className="hidden md:block">
-                <Button variant="outline">Login</Button>
+    <HydrateClient>
+      <div className="min-h-screen bg-background">
+        <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
+          <div className="flex h-14 items-center justify-between px-4">
+            <div className="flex items-center">
+              <Link className="flex items-center space-x-2" href="#">
+                <span className="font-bold text-lg">rizrmdhn</span>
               </Link>
-            )}
-          </div>
-        </div>
-      </header>
+            </div>
 
-      <HydrateClient>
+            {/* Desktop Navigation */}
+            <nav className="hidden items-center space-x-6 font-medium text-sm md:flex">
+              <Link
+                href="#about"
+                className="transition-colors hover:text-foreground/80"
+              >
+                About
+              </Link>
+              <Link
+                href="#experience"
+                className="transition-colors hover:text-foreground/80"
+              >
+                Experience
+              </Link>
+              <Link
+                href="#projects"
+                className="transition-colors hover:text-foreground/80"
+              >
+                Projects
+              </Link>
+              <Link
+                href="#certificates"
+                className="transition-colors hover:text-foreground/80"
+              >
+                Certificates
+              </Link>
+              <Link
+                href="/resume"
+                className="transition-colors hover:text-foreground/80"
+              >
+                Resume
+              </Link>
+            </nav>
+
+            {/* Right side items */}
+            <div className="flex items-center space-x-2">
+              {/* Mobile Menu Button */}
+              <MobileMenu menu={mobileMenu} />
+
+              <ModeToggle />
+
+              {user && <ModeViewAs />}
+
+              {user ? (
+                <LogoutButton className="hidden md:flex" variant="outline" />
+              ) : (
+                <Link href="/login" className="hidden md:block">
+                  <Button variant="outline">Login</Button>
+                </Link>
+              )}
+            </div>
+          </div>
+        </header>
+
         <main className="w-full">
           <section id="about" className="py-12 md:py-24 lg:py-32">
             <div className="container mx-auto px-4 md:px-6">
@@ -104,53 +109,61 @@ export default async function Home() {
                     Web Developer
                   </h1>
                   <p className="mx-auto max-w-[600px] px-4 text-gray-500 text-sm sm:text-base md:text-lg lg:text-xl dark:text-gray-400">
-                    I'm a freelance web developer, I'm passionate about
-                    technology and I love to learn new things.
+                    I&apos;m a freelance frontend web developer specializing in
+                    responsive, high-performance interfaces for modern web apps.
+                    I build clean, scalable React/Next.js solutions and work
+                    effectively in both remote and on-site teams through clear
+                    communication and reliable delivery.
                   </p>
                 </div>
-                <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
-                  <Link href="https://github.com/rizrmdhn" target="_blank">
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="h-9 w-9 sm:h-10 sm:w-10"
+                <div className="flex flex-col flex-wrap items-center justify-center gap-3 sm:gap-4">
+                  <div className="flex flex-row gap-3">
+                    <Link href="https://github.com/rizrmdhn" target="_blank">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="h-9 w-9 sm:h-10 sm:w-10"
+                      >
+                        <FaGithub className="h-3 w-3 sm:h-4 sm:w-4" />
+                        <span className="sr-only">GitHub</span>
+                      </Button>
+                    </Link>
+                    <Link
+                      href="https://www.linkedin.com/in/rizrmdhn/"
+                      target="_blank"
                     >
-                      <FaGithub className="h-3 w-3 sm:h-4 sm:w-4" />
-                      <span className="sr-only">GitHub</span>
-                    </Button>
-                  </Link>
-                  <Link
-                    href="https://www.linkedin.com/in/rizrmdhn/"
-                    target="_blank"
-                  >
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="h-9 w-9 sm:h-10 sm:w-10"
-                    >
-                      <Linkedin className="h-3 w-3 sm:h-4 sm:w-4" />
-                      <span className="sr-only">LinkedIn</span>
-                    </Button>
-                  </Link>
-                  <Link href="https://x.com/rizrmdhn_" target="_blank">
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="h-9 w-9 sm:h-10 sm:w-10"
-                    >
-                      <FaTwitter className="h-3 w-3 sm:h-4 sm:w-4" />
-                      <span className="sr-only">Twitter</span>
-                    </Button>
-                  </Link>
-                  <Link href="mailto:rizrmdhn.work@gmail.com">
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="h-9 w-9 sm:h-10 sm:w-10"
-                    >
-                      <Mail className="h-3 w-3 sm:h-4 sm:w-4" />
-                      <span className="sr-only">Email</span>
-                    </Button>
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="h-9 w-9 sm:h-10 sm:w-10"
+                      >
+                        <Linkedin className="h-3 w-3 sm:h-4 sm:w-4" />
+                        <span className="sr-only">LinkedIn</span>
+                      </Button>
+                    </Link>
+                    <Link href="https://x.com/rizrmdhn_" target="_blank">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="h-9 w-9 sm:h-10 sm:w-10"
+                      >
+                        <FaTwitter className="h-3 w-3 sm:h-4 sm:w-4" />
+                        <span className="sr-only">Twitter</span>
+                      </Button>
+                    </Link>
+                    <Link href="mailto:rizrmdhn.work@gmail.com">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="h-9 w-9 sm:h-10 sm:w-10"
+                      >
+                        <Mail className="h-3 w-3 sm:h-4 sm:w-4" />
+                        <span className="sr-only">Email</span>
+                      </Button>
+                    </Link>
+                  </div>
+                  <Link href="/resume/download" target="_blank">
+                    <Button>Download Resume</Button>
                   </Link>
                 </div>
               </div>
@@ -196,15 +209,15 @@ export default async function Home() {
             </div>
           </section>
         </main>
-      </HydrateClient>
 
-      <footer className="border-t">
-        <div className="container mx-auto flex w-full shrink-0 flex-col items-center justify-center gap-2 px-4 py-6 sm:flex-row md:px-6">
-          <p className="text-center text-gray-500 text-xs sm:text-left dark:text-gray-400">
-            © {format(new Date(), "yyyy")} rizrmdhn. All rights reserved.
-          </p>
-        </div>
-      </footer>
-    </div>
+        <footer className="border-t">
+          <div className="container mx-auto flex w-full shrink-0 flex-col items-center justify-center gap-2 px-4 py-6 sm:flex-row md:px-6">
+            <p className="text-center text-gray-500 text-xs sm:text-left dark:text-gray-400">
+              © {format(new Date(), "yyyy")} rizrmdhn. All rights reserved.
+            </p>
+          </div>
+        </footer>
+      </div>
+    </HydrateClient>
   );
 }
