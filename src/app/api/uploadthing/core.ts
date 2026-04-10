@@ -43,7 +43,18 @@ export const ourFileRouter = {
 			return { userId: user.id, projectId: input.projectId };
 		})
 		.onUploadComplete(async ({ metadata, file }) => {
-			// This code RUNS ON YOUR SERVER after upload
+			const existingProject = await projectQueries.getProjectById(
+				metadata.projectId,
+			);
+
+			if (existingProject.image_url) {
+				const existingImageKey = existingProject.image_url.split("/").pop();
+
+				if (existingImageKey) {
+					await utapi.deleteFiles(existingImageKey);
+				}
+			}
+
 			await projectQueries.insertImageToProject(
 				metadata.projectId,
 				file.ufsUrl,
