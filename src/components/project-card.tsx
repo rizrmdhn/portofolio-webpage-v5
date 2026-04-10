@@ -25,6 +25,7 @@ import {
   Trash2,
   Upload,
 } from "lucide-react";
+import type { Route } from "next";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -52,6 +53,7 @@ export default function ProjectCard({
 
   const router = useRouter();
   const utils = api.useUtils();
+  const editPath = `/project/${id}/edit` as Route;
 
   const { data: me } = api.auth.me.useQuery();
 
@@ -86,6 +88,11 @@ export default function ProjectCard({
       setIsDeleting(false);
     },
   });
+
+  const prefecthProject = () => {
+    router.prefetch(editPath);
+    utils.project.getById.prefetch({ id });
+  };
 
   return (
     <Card className="group relative overflow-hidden p-0">
@@ -159,10 +166,9 @@ export default function ProjectCard({
             variant="secondary"
             size="icon"
             className="h-8 w-8 cursor-pointer shadow-sm"
-            onClick={() => router.push(`/project/${id}/edit`)}
-            onMouseEnter={() => {
-              utils.project.getById.prefetch({ id });
-            }}
+            onClick={() => router.push(editPath)}
+            onMouseEnter={prefecthProject}
+            onFocus={prefecthProject}
           >
             <Edit className="h-4 w-4" />
           </Button>

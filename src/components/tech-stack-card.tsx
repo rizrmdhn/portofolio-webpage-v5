@@ -9,14 +9,15 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import type { TechStack } from "@/types/tech-stack.types";
-import { Card, CardContent } from "./ui/card";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { api } from "@/trpc/react";
 import { globalErrorToast, globalSuccessToast } from "@/lib/toast";
-import { Button } from "./ui/button";
+import { api } from "@/trpc/react";
+import type { TechStack } from "@/types/tech-stack.types";
 import { Edit, LoaderCircle, Trash2 } from "lucide-react";
+import type { Route } from "next";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Button } from "./ui/button";
+import { Card, CardContent } from "./ui/card";
 
 interface TechStackCardProps extends TechStack {}
 
@@ -25,6 +26,7 @@ export default function TechStackCard({ id, name, list }: TechStackCardProps) {
 
   const router = useRouter();
   const utils = api.useUtils();
+  const editPath = `/tech-stack/${id}/edit` as Route;
 
   const { data: me } = api.auth.me.useQuery();
 
@@ -41,6 +43,11 @@ export default function TechStackCard({ id, name, list }: TechStackCardProps) {
     },
   });
 
+  const prefetchTechStacks = () => {
+    router.prefetch(editPath);
+    utils.techStack.getById.prefetch({ id });
+  };
+
   return (
     <Card key={id} className="group relative overflow-hidden">
       {/* Edit/Delete buttons - Only show on hover for authenticated users */}
@@ -50,10 +57,9 @@ export default function TechStackCard({ id, name, list }: TechStackCardProps) {
             variant="secondary"
             size="icon"
             className="h-8 w-8 cursor-pointer shadow-sm"
-            onClick={() => router.push(`/tech-stack/${id}/edit`)}
-            onMouseEnter={() => {
-              utils.techStack.getById.prefetch({ id });
-            }}
+            onClick={() => router.push(editPath)}
+            onMouseEnter={prefetchTechStacks}
+            onFocus={prefetchTechStacks}
           >
             <Edit className="h-4 w-4" />
           </Button>

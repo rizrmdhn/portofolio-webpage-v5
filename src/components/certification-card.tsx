@@ -16,6 +16,7 @@ import { api } from "@/trpc/react";
 import type { Certification } from "@/types/certification.types";
 import { format } from "date-fns";
 import { Edit, ExternalLink, LoaderCircle, Trash2 } from "lucide-react";
+import type { Route } from "next";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -34,6 +35,7 @@ export default function CertificationCard({
 
   const router = useRouter();
   const utils = api.useUtils();
+  const editPath = `/certification/${id}/edit` as Route;
 
   const { data: me } = api.auth.me.useQuery();
 
@@ -50,6 +52,11 @@ export default function CertificationCard({
     },
   });
 
+  const prefetchCertification = () => {
+    router.prefetch(editPath);
+    utils.certification.getById.prefetch({ id });
+  };
+
   return (
     <Card className="group relative overflow-hidden">
       {/* Edit/Delete buttons - Only show on hover for authenticated users */}
@@ -59,10 +66,9 @@ export default function CertificationCard({
             variant="secondary"
             size="icon"
             className="h-8 w-8 shadow-sm hover:cursor-pointer"
-            onClick={() => router.push(`/certification/${id}/edit`)}
-            onMouseEnter={() => {
-              utils.certification.getById.prefetch({ id });
-            }}
+            onClick={() => router.push(editPath)}
+            onMouseEnter={prefetchCertification}
+            onFocus={prefetchCertification}
           >
             <Edit className="h-4 w-4" />
           </Button>

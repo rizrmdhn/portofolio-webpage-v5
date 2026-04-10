@@ -19,9 +19,9 @@ import {
   differenceInMonths,
   differenceInWeeks,
   differenceInYears,
-  format,
 } from "date-fns";
 import { Edit, LoaderCircle, Trash2 } from "lucide-react";
+import type { Route } from "next";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -30,7 +30,7 @@ interface ExperienceCardProps extends Experience {}
 function formatDuration(
   startDate: string,
   endDate?: string,
-  currentlyWorking?: boolean
+  currentlyWorking?: boolean,
 ) {
   const start = new Date(startDate);
   const end = currentlyWorking ? new Date() : new Date(endDate || "");
@@ -66,6 +66,7 @@ export default function ExperienceCard({
 
   const router = useRouter();
   const utils = api.useUtils();
+  const editPath = `/experience/${id}/edit` as Route;
 
   const { data: me } = api.auth.me.useQuery();
 
@@ -82,6 +83,11 @@ export default function ExperienceCard({
     },
   });
 
+  const prefetchEditPage = () => {
+    router.prefetch(editPath);
+    void utils.experience.getById.prefetch({ id });
+  };
+
   return (
     <Card className="group relative overflow-hidden">
       {/* Edit/Delete buttons - Only show on hover for authenticated users */}
@@ -91,10 +97,9 @@ export default function ExperienceCard({
             variant="secondary"
             size="icon"
             className="h-8 w-8 shadow-sm hover:cursor-pointer"
-            onClick={() => router.push(`/experience/${id}/edit`)}
-            onMouseEnter={() => {
-              utils.experience.getById.prefetch({ id });
-            }}
+            onClick={() => router.push(editPath)}
+            onMouseEnter={prefetchEditPage}
+            onFocus={prefetchEditPage}
           >
             <Edit className="h-4 w-4" />
           </Button>
