@@ -106,14 +106,13 @@ export default async function Home() {
               <div className="mx-auto flex max-w-4xl flex-col items-center justify-center space-y-6 text-center">
                 <div className="space-y-4">
                   <h1 className="font-bold text-2xl tracking-tighter sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
-                    Web Developer
+                    Full-Stack Web Developer
                   </h1>
                   <p className="mx-auto max-w-[600px] px-4 text-gray-500 text-sm sm:text-base md:text-lg lg:text-xl dark:text-gray-400">
-                    I&apos;m a freelance frontend web developer specializing in
-                    responsive, high-performance interfaces for modern web apps.
-                    I build clean, scalable React/Next.js solutions and work
-                    effectively in both remote and on-site teams through clear
-                    communication and reliable delivery.
+                    Full-stack Developer with 2+ years building production
+                    web and mobile apps using Next.js, tRPC, and Drizzle ORM.
+                    Delivered 10+ projects across freelance and institutional
+                    settings. Passionate about type-safe, scalable code.
                   </p>
                 </div>
                 <div className="flex flex-col flex-wrap items-center justify-center gap-3 sm:gap-4">
