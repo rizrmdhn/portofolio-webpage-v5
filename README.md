@@ -1,29 +1,66 @@
-# Create T3 App
+# Portfolio Webpage v5
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+Personal portfolio website built with the T3 Stack, showcasing projects, experience, certifications, and tech stack.
 
-## What's next? How do I make an app with this?
+## Tech Stack
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+- [Next.js](https://nextjs.org) — React framework with App Router
+- [tRPC](https://trpc.io) — End-to-end type-safe APIs
+- [Drizzle ORM](https://orm.drizzle.team) — Type-safe database ORM with PostgreSQL
+- [Tailwind CSS](https://tailwindcss.com) — Utility-first CSS
+- [shadcn/ui](https://ui.shadcn.com) — Radix UI-based component library
+- [UploadThing](https://uploadthing.com) — File uploads (resume/CV)
+- [Zustand](https://zustand-demo.pmnd.rs) — Client state management
+- [Zod](https://zod.dev) — Schema validation
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## Features
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+- Public portfolio page with projects, experience, certifications, and tech stack sections
+- CV/resume viewer and upload
+- Admin dashboard to manage all content (protected by auth)
+- Dark mode support
+- Fully type-safe from database to UI
 
-## Learn More
+## Getting Started
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+Install dependencies:
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+```bash
+pnpm install
+```
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+Copy the environment file and fill in the required values:
 
-## How do I deploy this?
+```bash
+cp .env.example .env
+```
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+Run database migrations:
+
+```bash
+pnpm db:migrate
+```
+
+Start the dev server:
+
+```bash
+pnpm dev
+```
+
+## Scripts
+
+| Script | Description |
+|---|---|
+| `pnpm dev` | Start dev server with Turbopack |
+| `pnpm build` | Build for production |
+| `pnpm start` | Start production server |
+| `pnpm typecheck` | Run TypeScript type checking |
+| `pnpm check` | Run Biome linter/formatter |
+| `pnpm check:write` | Run Biome and auto-fix |
+| `pnpm db:generate` | Generate Drizzle migration files |
+| `pnpm db:migrate` | Run migrations |
+| `pnpm db:push` | Push schema changes directly |
+| `pnpm db:studio` | Open Drizzle Studio |
+| `pnpm db:seed` | Seed the database |
+| `pnpm db:reset` | Reset the database |
+| `pnpm db:clean` | Clean the database |
